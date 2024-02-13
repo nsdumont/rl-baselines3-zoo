@@ -1,0 +1,68 @@
+Acrobot-v1:
+  batch_size: 128
+  buffer_size: 50000
+  env_wrapper:
+  - hrr_gym_wrappers.SSPObsWrapper:
+      shape_out: 351
+  exploration_final_eps: 0.1
+  exploration_fraction: 0.12
+  gamma: 0.99
+  gradient_steps: -1
+  learning_rate: 0.00063
+  learning_starts: 0
+  n_timesteps: 100000.0
+  policy: MlpPolicy
+  policy_kwargs: dict(net_arch=[256, 256])
+  target_update_interval: 250
+  train_freq: 4
+CartPole-v1:
+  batch_size: 64
+  buffer_size: 100000
+  env_wrapper:
+  - hrr_gym_wrappers.SSPObsWrapper:
+      shape_out: 251
+  exploration_final_eps: 0.04
+  exploration_fraction: 0.16
+  gamma: 0.99
+  gradient_steps: 128
+  learning_rate: 0.0023
+  learning_starts: 1000
+  n_timesteps: 50000.0
+  policy: MlpPolicy
+  policy_kwargs: dict(net_arch=[256, 256])
+  target_update_interval: 10
+  train_freq: 256
+LunarLander-v2:
+  batch_size: 128
+  buffer_size: 50000
+  env_wrapper:
+  - hrr_gym_wrappers.SSPObsWrapper:
+      shape_out: 451
+  exploration_final_eps: 0.1
+  exploration_fraction: 0.12
+  gamma: 0.99
+  gradient_steps: -1
+  learning_rate: 0.00063
+  learning_starts: 0
+  n_timesteps: 100000.0
+  policy: MlpPolicy
+  policy_kwargs: dict(net_arch=[256, 256])
+  target_update_interval: 250
+  train_freq: 4
+MountainCar-v0:
+  batch_size: 128
+  buffer_size: 10000
+  env_wrapper:
+  - hrr_gym_wrappers.SSPObsWrapper:
+      shape_out: 151
+  exploration_final_eps: 0.07
+  exploration_fraction: 0.2
+  gamma: 0.98
+  gradient_steps: 8
+  learning_rate: 0.004
+  learning_starts: 1000
+  n_timesteps: 120000.0
+  policy: MlpPolicy
+  policy_kwargs: dict(net_arch=[256, 256])
+  target_update_interval: 600
+  train_freq: 16

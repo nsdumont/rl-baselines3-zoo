@@ -1,0 +1,78 @@
+Acrobot-v1:
+  env_wrapper:
+  - hrr_gym_wrappers.SSPObsWrapper:
+      shape_out: 351
+  n_envs: 2
+  n_steps: 1024
+  n_timesteps: 100000.0
+  normalize: true
+  policy: MlpPolicy
+CartPole-v1:
+  batch_size: 512
+  cg_damping: 0.001
+  env_wrapper:
+  - hrr_gym_wrappers.SSPObsWrapper:
+      shape_out: 251
+  gae_lambda: 0.98
+  gamma: 0.99
+  learning_rate: 0.001
+  n_critic_updates: 20
+  n_envs: 2
+  n_steps: 512
+  n_timesteps: 100000.0
+  policy: MlpPolicy
+LunarLander-v2:
+  cg_damping: 0.01
+  env_wrapper:
+  - hrr_gym_wrappers.SSPObsWrapper:
+      shape_out: 451
+  gae_lambda: 0.98
+  gamma: 0.99
+  learning_rate: 0.001
+  n_critic_updates: 15
+  n_envs: 2
+  n_steps: 512
+  n_timesteps: 200000.0
+  policy: MlpPolicy
+LunarLanderContinuous-v2:
+  env_wrapper:
+  - hrr_gym_wrappers.SSPObsWrapper:
+      shape_out: 451
+  n_critic_updates: 20
+  n_envs: 2
+  n_steps: 1024
+  n_timesteps: 100000.0
+  normalize: true
+  policy: MlpPolicy
+MountainCar-v0:
+  env_wrapper:
+  - hrr_gym_wrappers.SSPObsWrapper:
+      shape_out: 151
+  n_critic_updates: 20
+  n_envs: 2
+  n_steps: 1024
+  n_timesteps: 100000.0
+  normalize: true
+  policy: MlpPolicy
+MountainCarContinuous-v0:
+  env_wrapper:
+  - hrr_gym_wrappers.SSPObsWrapper:
+      shape_out: 151
+  n_envs: 2
+  n_timesteps: 50000
+  normalize: true
+  policy: MlpPolicy
+  sde_sample_freq: 4
+  use_sde: true
+Pendulum-v1:
+  env_wrapper:
+  - hrr_gym_wrappers.SSPObsWrapper:
+      shape_out: 201
+  gamma: 0.9
+  n_critic_updates: 15
+  n_envs: 2
+  n_steps: 1024
+  n_timesteps: 100000.0
+  policy: MlpPolicy
+  sde_sample_freq: 4
+  use_sde: true

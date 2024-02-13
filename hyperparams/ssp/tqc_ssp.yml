@@ -1,0 +1,40 @@
+LunarLanderContinuous-v2:
+  batch_size: 256
+  buffer_size: 1000000
+  ent_coef: auto
+  env_wrapper:
+  - hrr_gym_wrappers.SSPObsWrapper:
+      shape_out: 451
+  gamma: 0.99
+  gradient_steps: 1
+  learning_rate: lin_7.3e-4
+  learning_starts: 10000
+  n_timesteps: 500000.0
+  policy: MlpPolicy
+  policy_kwargs: dict(net_arch=[400, 300])
+  tau: 0.01
+  train_freq: 1
+MountainCarContinuous-v0:
+  batch_size: 512
+  buffer_size: 50000
+  ent_coef: 0.1
+  env_wrapper:
+  - hrr_gym_wrappers.SSPObsWrapper:
+      shape_out: 151
+  gamma: 0.9999
+  gradient_steps: 32
+  learning_rate: 0.0003
+  learning_starts: 0
+  n_timesteps: 50000.0
+  policy: MlpPolicy
+  policy_kwargs: dict(log_std_init=-3.67, net_arch=[64, 64])
+  tau: 0.01
+  train_freq: 32
+  use_sde: true
+Pendulum-v1:
+  env_wrapper:
+  - hrr_gym_wrappers.SSPObsWrapper:
+      shape_out: 201
+  learning_rate: 0.001
+  n_timesteps: 20000
+  policy: MlpPolicy

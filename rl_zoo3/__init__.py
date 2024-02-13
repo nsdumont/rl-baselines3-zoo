@@ -6,6 +6,9 @@ import rl_zoo3.gym_patches  # noqa: F401
 
 # isort: on
 
+import rl_zoo3.wrappers
+
+
 from rl_zoo3.utils import (
     ALGOS,
     create_test_env,
@@ -15,6 +18,7 @@ from rl_zoo3.utils import (
     get_wrapper_class,
     linear_schedule,
 )
+
 
 # Read version from file
 version_file = os.path.join(os.path.dirname(__file__), "version.txt")

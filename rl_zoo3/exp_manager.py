@@ -178,6 +178,9 @@ class ExperimentManager:
             self.log_path, f"{self.env_name}_{get_latest_run_id(self.log_path, self.env_name) + 1}{uuid_str}"
         )
         self.params_path = f"{self.save_path}/{self.env_name}"
+        
+        self.algo_ext = ""
+        self.domain_dim = None
 
     def setup_experiment(self) -> Optional[Tuple[BaseAlgorithm, Dict[str, Any]]]:
         """
@@ -433,6 +436,9 @@ class ExperimentManager:
         # and delete the entry
         env_wrapper = get_wrapper_class(hyperparams)
         if "env_wrapper" in hyperparams.keys():
+            if "SSP" in ",".join(hyperparams["env_wrapper"][0].keys()):
+                self.algo_ext = "_ssp"
+                
             del hyperparams["env_wrapper"]
 
         # Same for VecEnvWrapper
@@ -630,6 +636,8 @@ class ExperimentManager:
             vec_env_kwargs=self.vec_env_kwargs,
             monitor_kwargs=self.monitor_kwargs,
         )
+        if self.algo_ext != "":
+            self.domain_dim = env.envs[0].ssp_obs_space.shape_in[0]
 
         if self.vec_env_wrapper is not None:
             env = self.vec_env_wrapper(env)
@@ -734,12 +742,17 @@ class ExperimentManager:
         additional_args = {
             "using_her_replay_buffer": kwargs.get("replay_buffer_class") == HerReplayBuffer,
             "her_kwargs": kwargs.get("replay_buffer_kwargs", {}),
+            "domain_dim": self.domain_dim,
         }
         # Pass n_actions to initialize DDPG/TD3 noise sampler
         # Sample candidate hyperparameters
-        sampled_hyperparams = HYPERPARAMS_SAMPLER[self.algo](trial, self.n_actions, n_envs, additional_args)
+        sampled_hyperparams = HYPERPARAMS_SAMPLER[self.algo + self.algo_ext](trial, self.n_actions, n_envs, additional_args)
+        
+        if self.algo_ext != "":
+            self.env_wrapper = get_wrapper_class(sampled_hyperparams)
+            del sampled_hyperparams["env_wrapper"]
         kwargs.update(sampled_hyperparams)
-
+        
         env = self.create_envs(n_envs, no_log=True)
 
         # By default, do not activate verbose output to keep
