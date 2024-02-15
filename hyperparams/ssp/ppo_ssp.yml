@@ -17,10 +17,7 @@ Acrobot-v1:
   n_timesteps: 1000000.0
   normalize: true
   policy: MlpPolicy
-  policy_kwargs: dict(
-      net_arch= 'small',
-      activation_fn='relu',
-      ortho_init=False)
+  policy_kwargs: "dict(net_arch=dict(pi=[64, 64], vf=[64, 64]),activation_fn=nn.ReLU,ortho_init=False)"
 CartPole-v1:
   batch_size: 256
   clip_range: lin_0.2
