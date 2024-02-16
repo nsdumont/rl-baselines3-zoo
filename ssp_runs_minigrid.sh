@@ -7,3 +7,5 @@ do
         python train.py --env $env --algo ppo --seed $seed --verbose 0 --gym-packages minigrid --conf-file hyperparams/ssp/ppo_ssp.yml --track --wandb-project-name ssp-rl --wandb-entity nicole-s-dumont --wandb-tags $env ssp-obs
     done
 done
+
+python train.py --env MiniGrid-DoorKey-5x5-v0 --algo ppo --seed 0 --verbose 0 --gym-packages minigrid --conf-file hyperparams/ssp/ppo_ssp.yml --track --wandb-project-name ssp-rl --wandb-entity nicole-s-dumont --wandb-tags MiniGrid-DoorKey-5x5-v0 ssp-obs
