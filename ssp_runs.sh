@@ -4,7 +4,7 @@ do
     do
         echo "Seed: $seed"
     	python train.py --env $env --algo ppo --seed $seed --verbose 0 --track --wandb-project-name ssp-rl --wandb-entity nicole-s-dumont --wandb-tags $env default-obs 
-        python train.py --env $env --algo ppo --seed $seed --verbose 0 --conf-file hyperparams/python/ppo_ssp.py --track --wandb-project-name ssp-rl --wandb-entity nicole-s-dumont --wandb-tags $env ssp-obs
+        python train.py --env $env --algo ppo --seed $seed --verbose 0 --conf-file  hyperparams/ssp/ppo_ssp.yml --track --wandb-project-name ssp-rl --wandb-entity nicole-s-dumont --wandb-tags $env ssp-obs
         python train.py --env $env --algo ppo --seed $seed --verbose 0 --conf-file hyperparams/python/ppo_rand.py --track --wandb-project-name ssp-rl --wandb-entity nicole-s-dumont --wandb-tags $env rand-obs  
     done
 done

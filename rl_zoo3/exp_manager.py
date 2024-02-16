@@ -436,8 +436,9 @@ class ExperimentManager:
         # and delete the entry
         env_wrapper = get_wrapper_class(hyperparams)
         if "env_wrapper" in hyperparams.keys():
-            if "SSP" in ",".join(hyperparams["env_wrapper"][0].keys()):
-                self.algo_ext = "_ssp"
+            if type(hyperparams["env_wrapper"])==dict:
+                if "SSP" in ",".join(hyperparams["env_wrapper"][0].keys()):
+                    self.algo_ext = "_ssp"
                 
             del hyperparams["env_wrapper"]
 

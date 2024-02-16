@@ -301,6 +301,9 @@ MiniGrid-Empty-Random-5x5-v0: &minigrid-defaults
   learning_rate: 2.5e-4 # The learning rate, it can be a function
   clip_range: 0.2 # Clipping parameter, it can be a function
 
+MiniGrid-Empty-5x5-v0:
+  <<: *minigrid-defaults
+
 MiniGrid-FourRooms-v0:
   <<: *minigrid-defaults
   n_timesteps: !!float 5e6
