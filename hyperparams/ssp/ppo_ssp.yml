@@ -1,4 +1,4 @@
-#tuned
+#tuned, kinda
 Acrobot-v1:
   env_wrapper:
   - hrr_gym_wrappers.SSPObsWrapper:
@@ -27,6 +27,7 @@ CartPole-v1:
   env_wrapper:
   - hrr_gym_wrappers.SSPObsWrapper:
       shape_out: 251
+      length_scale: [9.6000004e-01, 1.0000000e-01, 8.3775806e-02, 1.0000000e-01]
   gae_lambda: 0.8
   gamma: 0.98
   learning_rate: lin_0.001
@@ -35,6 +36,7 @@ CartPole-v1:
   n_steps: 32
   n_timesteps: 100000.0
   policy: MlpPolicy
+  policy_kwargs: "dict(net_arch=dict(pi=[64], vf=[64]),activation_fn=nn.ReLU)" # new
   
 LunarLander-v2:
   batch_size: 64
@@ -49,6 +51,7 @@ LunarLander-v2:
   n_steps: 1024
   n_timesteps: 1000000.0
   policy: MlpPolicy
+  policy_kwargs: "dict(net_arch=dict(pi=[64], vf=[64]),activation_fn=nn.ReLU)"
   
 LunarLanderContinuous-v2:
   batch_size: 64
@@ -63,6 +66,7 @@ LunarLanderContinuous-v2:
   n_steps: 1024
   n_timesteps: 1000000.0
   policy: MlpPolicy
+  policy_kwargs: "dict(net_arch=dict(pi=[64], vf=[64]),activation_fn=nn.ReLU)"
   
 MountainCar-v0:
   ent_coef: 0.0
@@ -77,6 +81,7 @@ MountainCar-v0:
   n_timesteps: 1000000.0
   normalize: true
   policy: MlpPolicy
+  policy_kwargs: "dict(net_arch=dict(pi=[64], vf=[64]),activation_fn=nn.ReLU)"
   
 MountainCarContinuous-v0:
   batch_size: 256
@@ -115,6 +120,7 @@ Pendulum-v1:
   policy: MlpPolicy
   sde_sample_freq: 4
   use_sde: true
+  policy_kwargs: "dict(net_arch=dict(pi=[64], vf=[64]),activation_fn=nn.ReLU)"
   
 
 MiniGrid-Empty-Random-5x5-v0: &minigrid-defaults-xy
