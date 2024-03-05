@@ -26,6 +26,7 @@ LunarLander-v2:
   n_steps: 5
   n_timesteps: 200000.0
   policy: MlpPolicy
+  
 LunarLanderContinuous-v2:
   ent_coef: 0.0
   env_wrapper:
@@ -45,6 +46,7 @@ LunarLanderContinuous-v2:
   use_rms_prop: true
   use_sde: true
   vf_coef: 0.4
+  
 MountainCar-v0:
   ent_coef: 0.0
   env_wrapper:
@@ -54,6 +56,7 @@ MountainCar-v0:
   n_timesteps: 1000000.0
   normalize: true
   policy: MlpPolicy
+  
 MountainCarContinuous-v0:
   ent_coef: 0.0
   env_wrapper:
@@ -67,6 +70,7 @@ MountainCarContinuous-v0:
   policy_kwargs: dict(log_std_init=0.0, ortho_init=False)
   sde_sample_freq: 16
   use_sde: true
+  
 Pendulum-v1:
   ent_coef: 0.0
   env_wrapper:
@@ -86,3 +90,17 @@ Pendulum-v1:
   use_rms_prop: true
   use_sde: true
   vf_coef: 0.4
+
+
+MiniGrid-DoorKey-5x5-v0:
+  env_wrapper: 
+  - hrr_gym_wrappers.SSPMiniGridViewFlatWrapper:
+      shape_out: 129
+  n_envs: 2
+  n_steps: 25
+  learning_rate: 0.001
+  ent_coef: 0.001
+  n_timesteps: !!float 5e4
+  max_grad_norm: 10
+  policy: MlpPolicy
+  policy_kwargs: "dict(features_extractor_class=MlpFeaturesExtractor, features_extractor_kwargs=dict(features_dim=64,net_arch=[64],activation_fn=nn.ReLU), net_arch=dict(pi=[64], vf=[64]),activation_fn=nn.ReLU)"

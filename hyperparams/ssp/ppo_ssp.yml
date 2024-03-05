@@ -73,15 +73,14 @@ MountainCar-v0:
   env_wrapper:
   - hrr_gym_wrappers.SSPObsWrapper:
       shape_out: 151
+      length_scale: [0.34728204118474704, 0.15569961421392498]
   gae_lambda: 0.98
   gamma: 0.99
   n_envs: 16
   n_epochs: 4
   n_steps: 16
   n_timesteps: 1000000.0
-  normalize: true
   policy: MlpPolicy
-  policy_kwargs: "dict(net_arch=dict(pi=[64], vf=[64]),activation_fn=nn.ReLU)"
   
 MountainCarContinuous-v0:
   batch_size: 256
@@ -109,7 +108,8 @@ Pendulum-v1:
   ent_coef: 0.0
   env_wrapper:
   - hrr_gym_wrappers.SSPObsWrapper:
-      shape_out: 201
+      shape_out: 73
+      length_scale: [0.23239569118125408, 1.451069567569478, 1.1845291313041482]
   gae_lambda: 0.95
   gamma: 0.9
   learning_rate: 0.001
@@ -127,6 +127,7 @@ MiniGrid-Empty-Random-5x5-v0: &minigrid-defaults-xy
   env_wrapper: 
   - hrr_gym_wrappers.SSPMiniGridXYFlatWrapper:
       shape_out: 201
+      length_scale: [0.5000000, 0.5000000, 0.5000000]
   n_envs: 8 # number of environment copies running in parallel
   n_timesteps: !!float 1e5
   policy: 'MlpPolicy'
@@ -146,6 +147,7 @@ MiniGrid-FourRooms-v0: &minigrid-defaults-view
   env_wrapper:
   - hrr_gym_wrappers.SSPMiniGridViewFlatWrapper:
       shape_out: 201
+      length_scale: [0.5000000, 0.5000000, 0.5000000]
   n_envs: 8 # number of environment copies running in parallel
   n_timesteps: !!float 5e6
   policy: 'MlpPolicy'
@@ -158,9 +160,20 @@ MiniGrid-FourRooms-v0: &minigrid-defaults-view
   learning_rate: 2.5e-4 # The learning rate, it can be a function
   clip_range: 0.2 # Clipping parameter, it can be a function
 
+
 MiniGrid-DoorKey-5x5-v0:
-  <<: *minigrid-defaults-view
-  n_timesteps: !!float 1e5
+  env_wrapper: 
+  - hrr_gym_wrappers.SSPMiniGridViewFlatWrapper:
+      shape_out: 129
+  n_envs: 2
+  n_steps: 25
+  learning_rate: 0.001
+  ent_coef: 0.001
+  n_timesteps: !!float 5e4
+  max_grad_norm: 10
+  batch_size: 256
+  policy: MlpPolicy
+  policy_kwargs: "dict(features_extractor_class=MlpFeaturesExtractor, features_extractor_kwargs=dict(features_dim=64,net_arch=[64],activation_fn=nn.ReLU), net_arch=dict(pi=[64], vf=[64]),activation_fn=nn.ReLU)"
 
 MiniGrid-MultiRoom-N4-S5-v0:
   <<: *minigrid-defaults-view

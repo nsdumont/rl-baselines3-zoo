@@ -312,6 +312,14 @@ MiniGrid-FourRooms-v0:
 MiniGrid-DoorKey-5x5-v0:
   <<: *minigrid-defaults
   n_timesteps: !!float 1e5
+  
+MiniGrid-DoorKey-6x6-v0:
+  <<: *minigrid-defaults
+  n_timesteps: !!float 1e5
+  
+MiniGrid-DoorKey-8x8-v0:
+  <<: *minigrid-defaults
+  n_timesteps: !!float 1e6
 
 MiniGrid-MultiRoom-N4-S5-v0:
   <<: *minigrid-defaults

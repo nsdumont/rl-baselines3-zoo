@@ -44,6 +44,14 @@ from stable_baselines3.common.vec_env import (
 
 # For custom activation fn
 from torch import nn as nn
+# For defining a feature extractor
+from stable_baselines3.common.torch_layers import (
+    BaseFeaturesExtractor,
+    CombinedExtractor,
+    FlattenExtractor,
+    NatureCNN,
+    create_mlp
+)
 
 # Register custom envs
 import rl_zoo3.import_envs  # noqa: F401
@@ -51,6 +59,28 @@ from rl_zoo3.callbacks import SaveVecNormalizeCallback, TrialEvalCallback
 from rl_zoo3.hyperparams_opt import HYPERPARAMS_SAMPLER
 from rl_zoo3.utils import ALGOS, get_callback_list, get_class_by_name, get_latest_run_id, get_wrapper_class, linear_schedule
 
+
+
+class MlpFeaturesExtractor(BaseFeaturesExtractor):
+    def __init__(
+        self,
+        observation_space: gym.Space,
+        features_dim: int,
+        net_arch: list,
+        activation_fn: nn.Module
+    ) -> None:
+        assert isinstance(observation_space, spaces.Box), (
+            "MlpExtractor must be used with a gym.spaces.Box ",
+            f"observation space, not {observation_space}",
+        )
+        super().__init__(observation_space, features_dim)
+        
+        input_dim = observation_space.shape[0]
+        self.mlp = nn.Sequential(*create_mlp(input_dim=input_dim, output_dim=features_dim,
+                              net_arch=net_arch, activation_fn=activation_fn))
+
+    def forward(self, observations: th.Tensor) -> th.Tensor:
+        return self.mlp(observations)
 
 class ExperimentManager:
     """
