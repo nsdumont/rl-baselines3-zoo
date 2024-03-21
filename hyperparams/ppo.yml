@@ -303,6 +303,15 @@ MiniGrid-Empty-Random-5x5-v0: &minigrid-defaults
 
 MiniGrid-Empty-5x5-v0:
   <<: *minigrid-defaults
+  
+MiniGrid-Empty-5x5-v0:
+  <<: *minigrid-defaults
+  
+MiniGrid-Empty-8x8-v0:
+  <<: *minigrid-defaults
+  
+MiniGrid-Empty-16x16-v0:
+  <<: *minigrid-defaults
 
 MiniGrid-FourRooms-v0:
   <<: *minigrid-defaults
@@ -645,3 +654,19 @@ maze-sample-100x100-v0:
   <<: *maze-defaults
   n_timesteps: !!float 1e5
   
+  
+# Copy from https://huggingface.co/qgallouedec/ddpg-PointMassDMC-v0
+PointMaze_UMaze-v3:  &pointmaze-defaults
+  env_wrapper:
+    - gymnasium.wrappers.FilterObservation:
+        filter_keys: ['observation']
+    - gymnasium.wrappers.FlattenObservation
+  n_timesteps: !!float 5e5
+  batch_size: 64
+  gamma: 0.99
+  learning_rate: !!float 1e-4
+  noise_std: 0.3
+  noisetype: 'ornstein-uhlenbeck'
+  policy: 'MlpPolicy'
+  policy_kwargs: "dict(net_arch=dict(pi=[300, 200], qf=[400, 300]))"
+    

@@ -149,3 +149,19 @@ Humanoid-v4:
 Swimmer-v4:
   <<: *mujoco-defaults
   gamma: 0.9999
+
+
+# Copy from https://huggingface.co/qgallouedec/ddpg-PointMassDMC-v0
+PointMaze_UMaze-v3:  &pointmaze-defaults
+  env_wrapper:
+    - gymnasium.wrappers.FilterObservation:
+        filter_keys: ['observation']
+    - gymnasium.wrappers.FlattenObservation
+  n_timesteps: !!float 5e5
+  batch_size: 64
+  gamma: 0.99
+  learning_rate: !!float 1e-4
+  noise_type: 'ornstein-uhlenbeck'
+  noise_std: 0.3
+  policy: 'MlpPolicy'
+  policy_kwargs: "dict(net_arch=dict(pi=[300, 200], qf=[400, 300]))"

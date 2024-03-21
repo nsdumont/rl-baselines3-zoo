@@ -613,13 +613,10 @@ import hrr_gym_wrappers
 #         ),
 #     }
 
-def sample_ppo_ssp_params(trial: optuna.Trial, n_actions: int, n_envs: int, additional_args: dict) -> Dict[str, Any]:
-    """
-    Sampler for PPO hyperparams.
 
-    :param trial:
-    :return:
-    """
+
+
+def sample_ssp_params(trial: optuna.Trial, n_actions: int, n_envs: int, additional_args: dict) -> Dict[str, Any]:
     domain_dim = additional_args['domain_dim']
     ssp_dim = trial.suggest_categorical("ssp_dim", [2*(domain_dim+1)*(i**2) + 1 for i in range(2,8)])
     len_scale = np.zeros(domain_dim)
@@ -630,18 +627,23 @@ def sample_ppo_ssp_params(trial: optuna.Trial, n_actions: int, n_envs: int, addi
     return {
         "env_wrapper": [{"hrr_gym_wrappers.SSPObsWrapper": {"shape_out": ssp_dim, "length_scale":len_scale}}],
     }
+    
 
 
 HYPERPARAMS_SAMPLER = {
     "a2c": sample_a2c_params,
+    "a2c_ssp": sample_ssp_params,
     "ars": sample_ars_params,
     "dqn": sample_dqn_params,
+    "dqn_ssp": sample_ssp_params,
     "ddpg": sample_ddpg_params,
     "qrdqn": sample_qrdqn_params,
     "sac": sample_sac_params,
+    "sac_ssp": sample_ssp_params,
     "tqc": sample_tqc_params,
+    "tqc_ssp": sample_ssp_params,
     "ppo": sample_ppo_params,
-    "ppo_ssp": sample_ppo_ssp_params,
+    "ppo_ssp": sample_ssp_params,
     "ppo_lstm": sample_ppo_lstm_params,
     "td3": sample_td3_params,
     "trpo": sample_trpo_params,
