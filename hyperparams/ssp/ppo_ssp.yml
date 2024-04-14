@@ -152,22 +152,11 @@ MiniGrid-Empty-8x8-v0:
 MiniGrid-Empty-16x16-v0:
   <<: *minigrid-defaults
   n_timesteps: !!float 1e5
-  env_wrapper: 
-  - hrr_gym_wrappers.SSPMiniGridViewFlatWrapper: #SSPMiniGridViewRewardWrapper
-      shape_out: 201
-      length_scale: [1.0000000, 1.0000000, 0.1000000]
-     # dissim_coef: 0.000
 
 MiniGrid-FourRooms-v0:
   <<: *minigrid-defaults
-  env_wrapper: 
-  - hrr_gym_wrappers.SSPMiniGridViewRewardWrapper:
-      shape_out: 201
-      length_scale: [1.0000000, 1.0000000, 0.1000000] 
-      dissim_coef: 0.001
   n_timesteps: !!float 1e6
-  n_steps: 512
-  
+
 
 MiniGrid-DoorKey-5x5-v0:
   <<: *minigrid-defaults
@@ -187,14 +176,26 @@ MiniGrid-MultiRoom-N4-S5-v0:
 
 MiniGrid-Fetch-5x5-N2-v0:
   <<: *minigrid-defaults
+  env_wrapper: 
+  - hrr_gym_wrappers.SSPBabyAIFlatWrapper:
+      shape_out: 201
+      length_scale: [1.0000000, 1.0000000, 0.1000000]
   n_timesteps: !!float 5e6
 
 MiniGrid-GoToDoor-5x5-v0:
   <<: *minigrid-defaults
+  env_wrapper: 
+  - hrr_gym_wrappers.SSPBabyAIFlatWrapper:
+      shape_out: 201
+      length_scale: [1.0000000, 1.0000000, 0.1000000]
   n_timesteps: !!float 5e6
 
 MiniGrid-PutNear-6x6-N2-v0:
   <<: *minigrid-defaults
+  env_wrapper: 
+  - hrr_gym_wrappers.SSPBabyAIFlatWrapper:
+      shape_out: 201
+      length_scale: [1.0000000, 1.0000000, 0.1000000]
   n_timesteps: !!float 1e7
 
 MiniGrid-RedBlueDoors-6x6-v0:
@@ -204,10 +205,18 @@ MiniGrid-RedBlueDoors-6x6-v0:
 
 MiniGrid-LockedRoom-v0:
   <<: *minigrid-defaults
+  env_wrapper: 
+  - hrr_gym_wrappers.SSPBabyAIFlatWrapper: # need to change wrapper to handle mulit-step instructions
+      shape_out: 201
+      length_scale: [1.0000000, 1.0000000, 0.1000000]
   n_timesteps: !!float 1e7 # Unsolved
 
 MiniGrid-KeyCorridorS3R1-v0:
   <<: *minigrid-defaults
+  env_wrapper: 
+  - hrr_gym_wrappers.SSPBabyAIFlatWrapper:
+      shape_out: 201
+      length_scale: [1.0000000, 1.0000000, 0.1000000]
   n_timesteps: !!float 5e5
 
 MiniGrid-Unlock-v0:
@@ -304,3 +313,105 @@ MiniGrid-ObstructedMaze-2Dlh-v0:
 # MiniGrid-ObstructedMaze-2Dlh-v0:
 #   <<: *minigrid-defaults-view
 #   n_timesteps: !!float 1e7 # Unsolved
+
+
+maze-sample-5x5-v0: &maze-defaults
+    env_wrapper:
+    - hrr_gym_wrappers.SSPObsWrapper:
+        shape_out: 151
+        length_scale: [1.0000000, 1.0000000] 
+    n_timesteps: !!float 1.5e4
+    policy: 'MlpPolicy'
+    n_steps: 1024 
+    batch_size: 128 
+    gae_lambda: 1.0
+    gamma: 0.95
+    n_epochs: 10 
+    ent_coef: 2.6555164799018923e-07
+    learning_rate: 2.6555164799018923e-07
+    clip_range: 0.2 
+    max_grad_norm: 1
+    vf_coef: 0.15524873265910033
+
+maze-random-5x5-v0:
+  <<: *maze-defaults
+  
+maze-random-6x6-v0:
+  <<: *maze-defaults
+  
+maze-sample-7x7-v0:
+  env_wrapper:
+  - hrr_gym_wrappers.SSPObsWrapper:
+      shape_out: 151
+      length_scale: [1.0000000, 1.0000000] 
+  n_envs: 1 # number of environment copies running in parallel
+  n_timesteps: !!float 1.5e4
+  policy: 'MlpPolicy'
+  n_steps: 128 
+  batch_size: 64 
+  gae_lambda: 0.9
+  gamma: 0.99
+  n_epochs: 5 
+  ent_coef: 6.0e-5
+  learning_rate: 5.0e-3
+  clip_range: 0.2 
+  max_grad_norm: 0.7
+  vf_coef: 0.5827230291956254
+  
+maze-random-7x7-v0:
+  env_wrapper:
+  - hrr_gym_wrappers.SSPObsWrapper:
+      shape_out: 151
+      length_scale: [1.0000000, 1.0000000] 
+  n_envs: 1 # number of environment copies running in parallel
+  n_timesteps: !!float 1.5e4
+  policy: 'MlpPolicy'
+  n_steps: 128 
+  batch_size: 64 
+  gae_lambda: 0.9
+  gamma: 0.99
+  n_epochs: 5 
+  ent_coef: 6.0e-5
+  learning_rate: 5.0e-3
+  clip_range: 0.2 
+  max_grad_norm: 0.7
+  vf_coef: 0.5827230291956254
+  
+maze-sample-8x8-v0:
+  env_wrapper:
+  - hrr_gym_wrappers.SSPObsWrapper:
+      shape_out: 151
+      length_scale: [1.0000000, 1.0000000] 
+  n_envs: 1 # number of environment copies running in parallel
+  n_timesteps: !!float 2.0e4
+  policy: 'MlpPolicy'
+  n_steps: 1024 
+  batch_size: 64 
+  gae_lambda: 0.8
+  gamma: 0.99
+  n_epochs: 10 
+  ent_coef: 2.6364810667123056e-4
+  learning_rate: 5.0e-4
+  clip_range: 0.2 
+  max_grad_norm: 0.6
+  vf_coef: 0.36730903178120766
+  
+maze-random-8x8-v0:
+  <<: *maze-defaults
+  n_timesteps: !!float 2e4
+
+maze-sample-9x9-v0:
+  <<: *maze-defaults
+  n_timesteps: !!float 2.5e4
+    
+maze-random-9x9-v0:
+  <<: *maze-defaults
+  n_timesteps: !!float 2.5e4
+  
+maze-random-10x10-v0:
+  <<: *maze-defaults
+  n_timesteps: !!float 2.5e4
+  
+maze-sample-10x10-v0:
+  <<: *maze-defaults
+  n_timesteps: !!float 2e4

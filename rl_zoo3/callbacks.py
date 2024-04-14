@@ -92,6 +92,51 @@ class SaveVecNormalizeCallback(BaseCallback):
                 if self.verbose > 1:
                     print(f"Saving VecNormalize to {path}")
         return True
+    
+# combined, see https://github.com/DLR-RM/stable-baselines3/issues/1791
+class SaveVecandStopTrainingCallback(BaseCallback):
+    """
+    Callback for saving a VecNormalize wrapper every ``save_freq`` steps
+    and redefines StopTrainingOnRewardThreshold
+
+    :param save_freq: (int)
+    :param save_path: (str) Path to the folder where ``VecNormalize`` will be saved, as ``vecnormalize.pkl``
+    :param name_prefix: (str) Common prefix to the saved ``VecNormalize``, if None (default)
+        only one file will be kept.
+    """
+
+    def __init__(self, reward_threshold: float, save_freq: int, save_path: str, name_prefix: Optional[str] = None, verbose: int = 0):
+        super().__init__(verbose)
+        self.save_freq = save_freq
+        self.save_path = save_path
+        self.name_prefix = name_prefix
+        self.reward_threshold = reward_threshold
+
+    def _init_callback(self) -> None:
+        # Create folder if needed
+        if self.save_path is not None:
+            os.makedirs(self.save_path, exist_ok=True)
+
+    def _on_step(self) -> bool:
+        # make mypy happy
+        assert self.model is not None
+
+        if self.n_calls % self.save_freq == 0:
+            if self.name_prefix is not None:
+                path = os.path.join(self.save_path, f"{self.name_prefix}_{self.num_timesteps}_steps.pkl")
+            else:
+                path = os.path.join(self.save_path, "vecnormalize.pkl")
+            if self.model.get_vec_normalize_env() is not None:
+                self.model.get_vec_normalize_env().save(path)  # type: ignore[union-attr]
+                if self.verbose > 1:
+                    print(f"Saving VecNormalize to {path}")
+                    
+        # Convert np.bool to bool, otherwise callback.on_step() is False won't work
+        continue_training = bool(self.parent.best_mean_reward < self.reward_threshold)
+        if self.verbose > 0 and not continue_training:
+            print("Stopping training because the mean reward {:.2f} "
+                  " is above the threshold {}".format(self.parent.best_mean_reward, self.reward_threshold))
+        return continue_training
 
 
 class ParallelTrainCallback(BaseCallback):

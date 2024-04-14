@@ -55,7 +55,7 @@ from stable_baselines3.common.torch_layers import (
 
 # Register custom envs
 import rl_zoo3.import_envs  # noqa: F401
-from rl_zoo3.callbacks import SaveVecNormalizeCallback, TrialEvalCallback
+from rl_zoo3.callbacks import SaveVecNormalizeCallback, TrialEvalCallback, SaveVecandStopTrainingCallback
 from rl_zoo3.hyperparams_opt import HYPERPARAMS_SAMPLER
 from rl_zoo3.utils import ALGOS, get_callback_list, get_class_by_name, get_latest_run_id, get_wrapper_class, linear_schedule
 
@@ -128,6 +128,7 @@ class ExperimentManager:
         device: Union[th.device, str] = "auto",
         config: Optional[str] = None,
         show_progress: bool = False,
+        reward_threshold: float = None,
     ):
         super().__init__()
         self.algo = algo
@@ -166,6 +167,7 @@ class ExperimentManager:
         self.eval_freq = eval_freq
         self.n_eval_episodes = n_eval_episodes
         self.n_eval_envs = n_eval_envs
+        self.reward_threshold = reward_threshold
 
         self.n_envs = 1  # it will be updated when reading hyperparams
         self.n_actions = 0  # For DDPG/TD3 action noise objects
@@ -550,7 +552,10 @@ class ExperimentManager:
             if self.verbose > 0:
                 print("Creating test environment")
 
-            save_vec_normalize = SaveVecNormalizeCallback(save_freq=1, save_path=self.params_path)
+            if self.reward_threshold is None:
+                save_vec_normalize = SaveVecNormalizeCallback(save_freq=1, save_path=self.params_path)
+            else:
+                save_vec_normalize = SaveVecandStopTrainingCallback(reward_threshold= self.reward_threshold, save_freq=1, save_path=self.params_path)
             eval_callback = EvalCallback(
                 self.create_envs(self.n_eval_envs, eval_env=True),
                 callback_on_new_best=save_vec_normalize,

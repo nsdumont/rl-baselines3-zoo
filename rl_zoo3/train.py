@@ -48,6 +48,7 @@ def train() -> None:
     )
     parser.add_argument("--eval-episodes", help="Number of episodes to use for evaluation", default=5, type=int)
     parser.add_argument("--n-eval-envs", help="Number of environments for evaluation", default=1, type=int)
+    parser.add_argument("--stop-reward-threshold", help="If reward during evaluation exceeds this, training is stopped early. If not set, there will be no early stopping", default=None, type=float)
     parser.add_argument("--save-freq", help="Save the model every n steps (if negative, no checkpoint)", default=-1, type=int)
     parser.add_argument(
         "--save-replay-buffer", help="Save the replay buffer too (when applicable)", action="store_true", default=False
@@ -255,6 +256,7 @@ def train() -> None:
         device=args.device,
         config=args.conf_file,
         show_progress=args.progress,
+        reward_threshold=args.stop_reward_threshold
     )
 
     # Prepare experiment and launch hyperparameter optimization if needed
