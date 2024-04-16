@@ -708,18 +708,58 @@ maze-sample-100x100-v0:
   
   
 
-
+#Trial 59 finished with value: 0.9986499999999999 and parameters: {'batch_size': 128, 'n_steps': 512, 'gamma': 0.995, 'learning_rate': 2.266440776624256e-05, 'ent_coef': 2.3498743376649477e-07, 'clip_range': 0.4, 'n_epochs': 10, 'gae_lambda': 0.98, 'max_grad_norm': 1, 'vf_coef': 0.5726555590232599, 'net_arch': 'tiny', 'activation_fn': 'relu'}. Best is trial 59 with value: 0.9986499999999999
 ContinuousMaze-5x5-v0: &conmaze-defaults
   normalize: true
   n_envs: 16
-  n_timesteps: !!float 1e6
+  n_timesteps: !!float 1.5e5
   policy: 'MlpPolicy'
-  n_steps: 16
-  gae_lambda: 0.98
+  batch_size: 128
+  n_steps: 512
   gamma: 0.99
-  n_epochs: 4
-  ent_coef: 0.0
-
+  learning_rate: 0.001
+  ent_coef: 2.3498743376649477e-07
+  clip_range: 0.4
+  n_epochs: 10
+  gae_lambda: 0.98
+  max_grad_norm: 1
+  vf_coef: 0.5726555590232599
+  policy_kwargs: "dict(activation_fn=nn.ReLU,
+                       net_arch=dict(pi=[64], vf=[64]),
+                       )"
+                       
+ContinuousMaze-6x6-v0:
+  <<: *conmaze-defaults
+  
+ContinuousMaze-7x7-v0:
+  <<: *conmaze-defaults
+  
+ContinuousMaze-8x8-v0:
+  <<: *conmaze-defaults
+  
+ContinuousMaze-9x9-v0:
+  <<: *conmaze-defaults
+  n_timesteps: !!float 3e5
+  
+ContinuousMaze-10x10-v0:
+  <<: *conmaze-defaults
+  n_timesteps: !!float 3e5
+  
+ContinuousMaze-11x11-v0:
+  <<: *conmaze-defaults
+  n_timesteps: !!float 3e5
+  
+ContinuousMaze-12x12-v0:
+  <<: *conmaze-defaults
+  n_timesteps: !!float 3e5
+  
+ContinuousMaze-15x15-v0:
+  <<: *conmaze-defaults
+  n_timesteps: !!float 5e5
+  
+ContinuousMaze-20x20-v0:
+  <<: *conmaze-defaults
+  n_timesteps: !!float 1e6
   
 # Copy from https://huggingface.co/qgallouedec/ddpg-PointMassDMC-v0
 PointMaze_UMaze-v3:  &pointmaze-defaults
