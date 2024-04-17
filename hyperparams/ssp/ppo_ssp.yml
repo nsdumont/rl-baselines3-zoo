@@ -430,7 +430,7 @@ ContinuousMaze-5x5-v0: &conmaze-defaults
   n_steps: 512
   gamma: 0.99
   learning_rate: 0.001
-  ent_coef: 2.0e-5
+  ent_coef: 2.3498743376649477e-07
   clip_range: 0.4
   n_epochs: 10
   gae_lambda: 0.98
