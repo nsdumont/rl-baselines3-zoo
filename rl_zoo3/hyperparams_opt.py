@@ -8,6 +8,49 @@ from torch import nn as nn
 from rl_zoo3 import linear_schedule
 
 
+
+net_arch_maps = {
+    'ppo': {
+            "tiny": dict(pi=[64], vf=[64]),
+            "small": dict(pi=[64, 64], vf=[64, 64]),
+            "medium": dict(pi=[256, 256], vf=[256, 256]),
+        },
+    'ppo_lstm': {
+            "tiny": dict(pi=[64], vf=[64]),
+            "small": dict(pi=[64, 64], vf=[64, 64]),
+            "medium": dict(pi=[256, 256], vf=[256, 256]),
+        },
+    'trpo': {
+            "small": dict(pi=[64, 64], vf=[64, 64]),
+            "medium": dict(pi=[256, 256], vf=[256, 256]),
+        },
+    'a2c': {
+            "small": dict(pi=[64, 64], vf=[64, 64]),
+            "medium": dict(pi=[256, 256], vf=[256, 256]),
+        },
+    'sac':{
+            "small": [64, 64],
+            "medium": [256, 256],
+            "big": [400, 300],
+        },
+    'td3': {
+            "small": [64, 64],
+            "medium": [256, 256],
+            "big": [400, 300],
+        },
+    'ddpg': {
+            "small": [64, 64],
+            "medium": [256, 256],
+            "big": [400, 300],
+        },
+    'dqn': {
+    	"tiny": [64],
+    	 "small": [64, 64],
+    	 "medium": [256, 256]
+        },
+}
+all_activation_funs = {"tanh": nn.Tanh, "relu": nn.ReLU, "elu": nn.ELU, "leaky_relu": nn.LeakyReLU}
+
 def sample_ppo_params(trial: optuna.Trial, n_actions: int, n_envs: int, additional_args: dict) -> Dict[str, Any]:
     """
     Sampler for PPO hyperparams.
@@ -47,13 +90,9 @@ def sample_ppo_params(trial: optuna.Trial, n_actions: int, n_envs: int, addition
 
     # Independent networks usually work best
     # when not working with images
-    net_arch = {
-        "tiny": dict(pi=[64], vf=[64]),
-        "small": dict(pi=[64, 64], vf=[64, 64]),
-        "medium": dict(pi=[256, 256], vf=[256, 256]),
-    }[net_arch_type]
+    net_arch = net_arch_maps['ppo'][net_arch_type]
 
-    activation_fn = {"tanh": nn.Tanh, "relu": nn.ReLU, "elu": nn.ELU, "leaky_relu": nn.LeakyReLU}[activation_fn_name]
+    activation_fn = all_activation_funs[activation_fn_name]
 
     return {
         "n_steps": n_steps,
@@ -76,6 +115,7 @@ def sample_ppo_params(trial: optuna.Trial, n_actions: int, n_envs: int, addition
     }
 
 
+
 def sample_ppo_lstm_params(trial: optuna.Trial, n_actions: int, n_envs: int, additional_args: dict) -> Dict[str, Any]:
     """
     Sampler for RecurrentPPO hyperparams.
@@ -96,6 +136,7 @@ def sample_ppo_lstm_params(trial: optuna.Trial, n_actions: int, n_envs: int, add
     )
 
     return hyperparams
+
 
 
 def sample_trpo_params(trial: optuna.Trial, n_actions: int, n_envs: int, additional_args: dict) -> Dict[str, Any]:
@@ -137,12 +178,9 @@ def sample_trpo_params(trial: optuna.Trial, n_actions: int, n_envs: int, additio
 
     # Independent networks usually work best
     # when not working with images
-    net_arch = {
-        "small": dict(pi=[64, 64], vf=[64, 64]),
-        "medium": dict(pi=[256, 256], vf=[256, 256]),
-    }[net_arch_type]
+    net_arch = net_arch_maps['trpo'][net_arch_type]
 
-    activation_fn = {"tanh": nn.Tanh, "relu": nn.ReLU, "elu": nn.ELU, "leaky_relu": nn.LeakyReLU}[activation_fn_name]
+    activation_fn = all_activation_funs[activation_fn_name]
 
     return {
         "n_steps": n_steps,
@@ -195,10 +233,7 @@ def sample_a2c_params(trial: optuna.Trial, n_actions: int, n_envs: int, addition
     if lr_schedule == "linear":
         learning_rate = linear_schedule(learning_rate)  # type: ignore[assignment]
 
-    net_arch = {
-        "small": dict(pi=[64, 64], vf=[64, 64]),
-        "medium": dict(pi=[256, 256], vf=[256, 256]),
-    }[net_arch_type]
+    net_arch = net_arch_maps['a2c'][net_arch_type]
 
     # sde_net_arch = {
     #     None: None,
@@ -206,7 +241,7 @@ def sample_a2c_params(trial: optuna.Trial, n_actions: int, n_envs: int, addition
     #     "small": [64, 64],
     # }[sde_net_arch]
 
-    activation_fn = {"tanh": nn.Tanh, "relu": nn.ReLU, "elu": nn.ELU, "leaky_relu": nn.LeakyReLU}[activation_fn_name]
+    activation_fn = all_activation_funs[activation_fn_name]
 
     return {
         "n_steps": n_steps,
@@ -256,14 +291,11 @@ def sample_sac_params(trial: optuna.Trial, n_actions: int, n_envs: int, addition
     net_arch_type = trial.suggest_categorical("net_arch", ["small", "medium", "big"])
     # activation_fn = trial.suggest_categorical('activation_fn', [nn.Tanh, nn.ReLU, nn.ELU, nn.LeakyReLU])
 
-    net_arch = {
-        "small": [64, 64],
-        "medium": [256, 256],
-        "big": [400, 300],
-        # Uncomment for tuning HER
+    net_arch = net_arch_maps['sac'][net_arch_type]
+        # Add to above for tuning HER
         # "large": [256, 256, 256],
         # "verybig": [512, 512, 512],
-    }[net_arch_type]
+
 
     target_entropy = "auto"
     # if ent_coef == 'auto':
@@ -290,6 +322,7 @@ def sample_sac_params(trial: optuna.Trial, n_actions: int, n_envs: int, addition
     return hyperparams
 
 
+
 def sample_td3_params(trial: optuna.Trial, n_actions: int, n_envs: int, additional_args: dict) -> Dict[str, Any]:
     """
     Sampler for TD3 hyperparams.
@@ -314,13 +347,10 @@ def sample_td3_params(trial: optuna.Trial, n_actions: int, n_envs: int, addition
     net_arch_type = trial.suggest_categorical("net_arch", ["small", "medium", "big"])
     # activation_fn = trial.suggest_categorical('activation_fn', [nn.Tanh, nn.ReLU, nn.ELU, nn.LeakyReLU])
 
-    net_arch = {
-        "small": [64, 64],
-        "medium": [256, 256],
-        "big": [400, 300],
-        # Uncomment for tuning HER
+    net_arch = net_arch_maps['td3'][net_arch_type]
+        # add for tuning HER
         # "verybig": [256, 256, 256],
-    }[net_arch_type]
+    
 
     hyperparams = {
         "gamma": gamma,
@@ -344,6 +374,8 @@ def sample_td3_params(trial: optuna.Trial, n_actions: int, n_envs: int, addition
         hyperparams = sample_her_params(trial, hyperparams, additional_args["her_kwargs"])
 
     return hyperparams
+
+
 
 
 def sample_ddpg_params(trial: optuna.Trial, n_actions: int, n_envs: int, additional_args: dict) -> Dict[str, Any]:
@@ -370,11 +402,7 @@ def sample_ddpg_params(trial: optuna.Trial, n_actions: int, n_envs: int, additio
     net_arch_type = trial.suggest_categorical("net_arch", ["small", "medium", "big"])
     # activation_fn = trial.suggest_categorical('activation_fn', [nn.Tanh, nn.ReLU, nn.ELU, nn.LeakyReLU])
 
-    net_arch = {
-        "small": [64, 64],
-        "medium": [256, 256],
-        "big": [400, 300],
-    }[net_arch_type]
+    net_arch = net_arch_maps['ddpg'][net_arch_type]
 
     hyperparams = {
         "gamma": gamma,
@@ -400,6 +428,8 @@ def sample_ddpg_params(trial: optuna.Trial, n_actions: int, n_envs: int, additio
     return hyperparams
 
 
+
+
 def sample_dqn_params(trial: optuna.Trial, n_actions: int, n_envs: int, additional_args: dict) -> Dict[str, Any]:
     """
     Sampler for DQN hyperparams.
@@ -422,7 +452,7 @@ def sample_dqn_params(trial: optuna.Trial, n_actions: int, n_envs: int, addition
 
     net_arch_type = trial.suggest_categorical("net_arch", ["tiny", "small", "medium"])
 
-    net_arch = {"tiny": [64], "small": [64, 64], "medium": [256, 256]}[net_arch_type]
+    net_arch = net_arch_maps['dqn'][net_arch_type]
 
     hyperparams = {
         "gamma": gamma,
@@ -442,6 +472,7 @@ def sample_dqn_params(trial: optuna.Trial, n_actions: int, n_envs: int, addition
         hyperparams = sample_her_params(trial, hyperparams, additional_args["her_kwargs"])
 
     return hyperparams
+
 
 
 def sample_her_params(trial: optuna.Trial, hyperparams: Dict[str, Any], her_kwargs: Dict[str, Any]) -> Dict[str, Any]:
@@ -582,13 +613,9 @@ def sample_ppo_ssp_params(trial: optuna.Trial, n_actions: int, n_envs: int, addi
 
     # Independent networks usually work best
     # when not working with images
-    net_arch = {
-        "tiny": dict(pi=[64], vf=[64]),
-        "small": dict(pi=[64, 64], vf=[64, 64]),
-        "medium": dict(pi=[256, 256], vf=[256, 256]),
-    }[net_arch_type]
+    net_arch = net_arch_maps['ppo'][net_arch_type]
 
-    activation_fn = {"tanh": nn.Tanh, "relu": nn.ReLU, "elu": nn.ELU, "leaky_relu": nn.LeakyReLU}[activation_fn_name]
+    activation_fn = all_activation_funs[activation_fn_name]
 
     return {
         "env_wrapper": [{"hrr_gym_wrappers.SSPObsWrapper": {"shape_out": ssp_dim, "length_scale":len_scale}}],

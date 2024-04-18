@@ -56,7 +56,7 @@ from stable_baselines3.common.torch_layers import (
 # Register custom envs
 import rl_zoo3.import_envs  # noqa: F401
 from rl_zoo3.callbacks import SaveVecNormalizeCallback, TrialEvalCallback, SaveVecandStopTrainingCallback
-from rl_zoo3.hyperparams_opt import HYPERPARAMS_SAMPLER
+from rl_zoo3.hyperparams_opt import HYPERPARAMS_SAMPLER, net_arch_maps, all_activation_funs
 from rl_zoo3.utils import ALGOS, get_callback_list, get_class_by_name, get_latest_run_id, get_wrapper_class, linear_schedule
 
 
@@ -900,7 +900,26 @@ class ExperimentManager:
             load_if_exists=True,
             direction="maximize",
         )
-
+        
+        try:
+            config_hyperparameters, _ = self.read_hyperparameters()
+            if 'policy_kwargs' in config_hyperparameters:
+                config_hyperparameters['policy_kwargs'] = eval(config_hyperparameters['policy_kwargs'])
+                for k in config_hyperparameters['policy_kwargs'].keys():
+                    if k=='net_arch':
+                        if config_hyperparameters['policy_kwargs'][k] in net_arch_maps[self.algo].values():
+                            config_hyperparameters[k] = list(net_arch_maps[self.algo].keys())[list(net_arch_maps[self.algo].values()).index(config_hyperparameters['policy_kwargs'][k])]
+                    elif k=='activation_fn':
+                        if config_hyperparameters['policy_kwargs'][k] in all_activation_funs.values():
+                            config_hyperparameters[k] = list(all_activation_funs.keys())[list(all_activation_funs.values()).index(config_hyperparameters['policy_kwargs'][k])]
+                    else:
+                        config_hyperparameters[k] = config_hyperparameters['policy_kwargs'][k]
+            config_hyperparameters.pop('policy_kwargs')
+            study.enqueue_trial(config_hyperparameters)
+            print("Adding existing hyperparams in config to start study")
+        except:
+            print("Not able to add existing hyperparams in config to start study")
+            
         try:
             if self.max_total_trials is not None:
                 # Note: we count already running trials here otherwise we get

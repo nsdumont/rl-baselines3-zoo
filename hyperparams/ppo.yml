@@ -712,7 +712,7 @@ maze-sample-100x100-v0:
 ContinuousMaze-5x5-v0: &conmaze-defaults
   normalize: true
   n_envs: 16
-  n_timesteps: !!float 1.5e5
+  n_timesteps: !!float 1e5
   policy: 'MlpPolicy'
   batch_size: 128
   n_steps: 512
