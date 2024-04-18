@@ -128,7 +128,7 @@ class ExperimentManager:
         device: Union[th.device, str] = "auto",
         config: Optional[str] = None,
         show_progress: bool = False,
-        reward_threshold: float = None,
+        reward_threshold: float = None
     ):
         super().__init__()
         self.algo = algo
@@ -193,7 +193,7 @@ class ExperimentManager:
         self.pruner = pruner
         self.n_startup_trials = n_startup_trials
         self.n_evaluations = n_evaluations
-        self.deterministic_eval = not (self.is_atari(env_id) or self.is_minigrid(env_id))
+        self.deterministic_eval = not (self.is_atari(env_id) or self.is_minigrid(env_id) or self.is_maze(env_id))
         self.device = device
 
         # Logging
@@ -581,6 +581,10 @@ class ExperimentManager:
         return "minigrid" in ExperimentManager.entry_point(env_id)
 
     @staticmethod
+    def is_maze(env_id: str) -> bool:
+        return "Maze" in ExperimentManager.entry_point(env_id)
+
+    @staticmethod
     def is_bullet(env_id: str) -> bool:
         return "pybullet_envs" in ExperimentManager.entry_point(env_id)
 
@@ -869,6 +873,16 @@ class ExperimentManager:
             raise optuna.exceptions.TrialPruned()
 
         return reward
+    
+        # def objective_wrapper(self, trial, nrseeds):
+        #     res = []
+        #     for ii in range(nrseeds):
+        #         rr = self.objective(trial, seed=ii)
+        #         res.append(rr)
+        
+        #     # add the individual results as an attribute to the trial if you want
+        #     trial.set_user_attr("individual_seed_results", res)
+        #     return sum(res)/len(res)
 
     def hyperparameters_optimization(self) -> None:
         if self.verbose > 0:
