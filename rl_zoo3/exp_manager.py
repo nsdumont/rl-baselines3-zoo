@@ -59,7 +59,7 @@ from rl_zoo3.callbacks import SaveVecNormalizeCallback, TrialEvalCallback, SaveV
 from rl_zoo3.hyperparams_opt import HYPERPARAMS_SAMPLER, net_arch_maps, all_activation_funs
 from rl_zoo3.utils import ALGOS, get_callback_list, get_class_by_name, get_latest_run_id, get_wrapper_class, linear_schedule
 
-
+import hrr_gym_wrappers
 
 class MlpFeaturesExtractor(BaseFeaturesExtractor):
     def __init__(

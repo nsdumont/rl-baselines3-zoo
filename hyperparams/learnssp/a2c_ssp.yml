@@ -1,0 +1,71 @@
+Acrobot-v1:
+  ent_coef: 0.0
+  n_envs: 16
+  n_timesteps: 500000.0
+  normalize: true
+  policy: MlpPolicy
+  policy_kwargs: ',features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=351)'
+CartPole-v1:
+  ent_coef: 0.0
+  n_envs: 8
+  n_timesteps: 500000.0
+  policy: MlpPolicy
+  policy_kwargs: ',features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=251)'
+LunarLander-v2:
+  ent_coef: 1.0e-05
+  gamma: 0.995
+  learning_rate: lin_0.00083
+  n_envs: 8
+  n_steps: 5
+  n_timesteps: 200000.0
+  policy: MlpPolicy
+  policy_kwargs: ',features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=451)'
+LunarLanderContinuous-v2:
+  ent_coef: 0.0
+  gae_lambda: 0.9
+  gamma: 0.99
+  learning_rate: lin_7e-4
+  max_grad_norm: 0.5
+  n_envs: 4
+  n_steps: 8
+  n_timesteps: 5000000.0
+  normalize: true
+  normalize_advantage: false
+  policy: MlpPolicy
+  policy_kwargs: dict(log_std_init=-2, ortho_init=False,features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=451)
+  use_rms_prop: true
+  use_sde: true
+  vf_coef: 0.4
+MountainCar-v0:
+  ent_coef: 0.0
+  n_envs: 16
+  n_timesteps: 1000000.0
+  normalize: true
+  policy: MlpPolicy
+  policy_kwargs: ',features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=151)'
+MountainCarContinuous-v0:
+  ent_coef: 0.0
+  n_envs: 4
+  n_steps: 100
+  n_timesteps: 100000.0
+  normalize: true
+  policy: MlpPolicy
+  policy_kwargs: dict(log_std_init=0.0, ortho_init=False,features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=151)
+  sde_sample_freq: 16
+  use_sde: true
+Pendulum-v1:
+  ent_coef: 0.0
+  gae_lambda: 0.9
+  gamma: 0.9
+  learning_rate: lin_7e-4
+  max_grad_norm: 0.5
+  n_envs: 8
+  n_steps: 8
+  n_timesteps: 1000000.0
+  normalize: true
+  normalize_advantage: false
+  policy: MlpPolicy
+  policy_kwargs: dict(log_std_init=-2, ortho_init=False,features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=201)
+  use_rms_prop: true
+  use_sde: true
+  vf_coef: 0.4

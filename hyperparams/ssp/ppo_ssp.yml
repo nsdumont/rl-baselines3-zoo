@@ -99,7 +99,7 @@ MountainCarContinuous-v0:
   n_timesteps: 20000.0
   normalize: true
   policy: MlpPolicy
-  policy_kwargs: dict(log_std_init=-3.29, ortho_init=False)
+  policy_kwargs: "dict(log_std_init=-3.29, ortho_init=False)"
   use_sde: true
   vf_coef: 0.19
   
