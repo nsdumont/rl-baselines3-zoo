@@ -35,6 +35,100 @@ CartPole-v1:
   policy: MlpPolicy
   policy_kwargs: dict(net_arch=dict(pi=[64], vf=[64]),activation_fn=nn.ReLU,features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=251,ssp_h=[0.96000004,
     0.1, 0.083775806, 0.1]))
+
+ContinuousMaze-5x5-v0: &conmaze-defaults
+  batch_size: 128
+  clip_range: 0.4
+  ent_coef: 2.3498743376649477e-07
+  gae_lambda: 0.98
+  gamma: 0.99
+  learning_rate: 0.001
+  max_grad_norm: 1
+  n_envs: 16
+  n_epochs: 10
+  n_steps: 512
+  n_timesteps: 200000.0
+  normalize: true
+  policy: MlpPolicy
+  policy_kwargs: dict(activation_fn=nn.ReLU, net_arch=dict(pi=[64], vf=[64]), features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=151,ssp_h=[1.0,1.0]))
+  vf_coef: 0.5726555590232599
+
+ContinuousMaze-6x6-v0:
+  <<: *conmaze-defaults
+  
+ContinuousMaze-7x7-v0:
+  <<: *conmaze-defaults
+  
+ContinuousMaze-8x8-v0:
+  <<: *conmaze-defaults
+  
+ContinuousMaze-9x9-v0:
+  <<: *conmaze-defaults
+  n_timesteps: !!float 3e5
+  
+ContinuousMaze-10x10-v0:
+  <<: *conmaze-defaults
+  n_timesteps: !!float 3e5
+  
+ContinuousMaze-11x11-v0:
+  <<: *conmaze-defaults
+  n_timesteps: !!float 3e5
+  
+ContinuousMaze-12x12-v0:
+  <<: *conmaze-defaults
+  n_timesteps: !!float 3e5
+  
+ContinuousMaze-15x15-v0:
+  <<: *conmaze-defaults
+  n_timesteps: !!float 3e5
+  
+ContinuousMaze-20x20-v0:
+  <<: *conmaze-defaults
+  n_timesteps: !!float 1e6
+  
+  
+  
+ContinuousMazeBlocks-5x5-v0:
+  <<: *conmaze-defaults
+  
+ContinuousMazeBlocks-6x6-v0:
+  <<: *conmaze-defaults
+  
+ContinuousMazeBlocks-7x7-v0:
+  <<: *conmaze-defaults
+  
+ContinuousMazeBlocks-8x8-v0:
+  <<: *conmaze-defaults
+  
+ContinuousMazeBlocks-9x9-v0:
+  <<: *conmaze-defaults
+  n_timesteps: !!float 3e5
+  
+ContinuousMazeBlocks-10x10-v0:
+  <<: *conmaze-defaults
+  n_timesteps: !!float 3e5
+  
+ContinuousMazeBlocks-11x11-v0:
+  <<: *conmaze-defaults
+  n_timesteps: !!float 3e5
+  
+ContinuousMazeBlocks-12x12-v0:
+  <<: *conmaze-defaults
+  n_timesteps: !!float 3e5
+  
+ContinuousMazeBlocks-15x15-v0:
+  <<: *conmaze-defaults
+  n_timesteps: !!float 5e5
+  
+ContinuousMazeBlocks-19x19-v0:
+  <<: *conmaze-defaults
+  n_timesteps: !!float 1e6
+  
+  
+ContinuousMazeBlocks-20x20-v0:
+  <<: *conmaze-defaults
+  n_timesteps: !!float 3e5
+
 HalfCheetah-v4:
   batch_size: 64
   clip_range: 0.1

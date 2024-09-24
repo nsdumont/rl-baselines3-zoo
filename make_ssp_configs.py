@@ -4,7 +4,7 @@ import yaml
 import gymnasium as gym
 
 algos = ['ppo', 'a2c', 'dqn','qrdqn','sac','td3','tqc','trpo']
-keep_envs = ["CartPole-v1", "Pendulum-v1", "MountainCar-v0" ,"MountainCarContinuous-v0", "LunarLander-v2","LunarLanderContinuous-v2", "Acrobot-v1"]
+keep_envs = ["CartPole-v1", "Pendulum-v1", "MountainCar-v0" ,"MountainCarContinuous-v0", "LunarLander-v2","LunarLanderContinuous-v2", "Acrobot-v1","ContinuousMaze-5x5-v0"]
 
 other_envs = ["HalfCheetah-v4", "Ant-v4", "Hopper-v4", "Walker2d-v4", "Swimmer-v4"]
 

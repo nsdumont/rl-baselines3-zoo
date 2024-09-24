@@ -469,11 +469,22 @@ ContinuousMaze-15x15-v0:
   <<: *conmaze-defaults
   n_timesteps: !!float 5e5
   
+  # trying the reward
 ContinuousMaze-20x20-v0:
   <<: *conmaze-defaults
+ # env_wrapper:
+ # - hrr_gym_wrappers.SSPRewardWrapper:
+ #     shape_out: 151
+  #    length_scale: [1.0000000, 1.0000000] 
+   #   dissim_coef: 0.1
   n_timesteps: !!float 1e6
   
-  
+RandGoalContinuousMaze-5x5-v0: 
+  <<: *conmaze-defaults
+  env_wrapper:
+  - hrr_gym_wrappers.SSPGoalWrapper:
+      shape_out: 151
+      length_scale: [1.0000000, 1.0000000] 
   
 ContinuousMazeBlocks-5x5-v0:
   <<: *conmaze-defaults

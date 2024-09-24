@@ -42,4 +42,7 @@ do
 	python train.py --env MountainCarContinuous-v0 --algo sac --seed $seed --verbose 0 --eval-freq 10 --eval-episodes 100 --stop-reward-threshold 90.0 --conf-file  hyperparams/sac.yml --track --wandb-project-name classiccontrol --wandb-entity nicole-s-dumont --wandb-tags MountainCarContinuous-v0-2 default-obs 
     python train.py --env MountainCarContinuous-v0 --algo sac --seed $seed --verbose 0 --eval-freq 10 --eval-episodes 100 --stop-reward-threshold 90.0 --conf-file  hyperparams/learnssp/sac_ssp.yml --track --wandb-project-name classiccontrol --wandb-entity nicole-s-dumont --wandb-tags MountainCarContinuous-v0-2 learnssp-obs
 
+    echo "Env: LunarLanderContinuous-v2"
+    python train.py --env LunarLanderContinuous-v2 --algo sac --seed $seed --verbose 0 --eval-freq 10 --eval-episodes 100 --stop-reward-threshold 200.0 --conf-file  hyperparams/sac.yml --track --wandb-project-name classiccontrol --wandb-entity nicole-s-dumont --wandb-tags LunarLanderContinuous-v22 default-obs 
+    python train.py --env LunarLanderContinuous-v2 --algo sac --seed $seed --verbose 0 --eval-freq 10 --eval-episodes 100 --stop-reward-threshold 200.0 --conf-file  hyperparams/learnssp/sac_ssp.yml --track --wandb-project-name classiccontrol --wandb-entity nicole-s-dumont --wandb-tags LunarLanderContinuous-v2 learnssp-obs
 done

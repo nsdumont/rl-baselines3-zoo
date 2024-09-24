@@ -3,6 +3,94 @@ Ant-v4:
   n_timesteps: 1000000.0
   policy: MlpPolicy
   policy_kwargs: dict(features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=501,basis_type="rand"))
+
+ContinuousMaze-5x5-v0: &conmaze-defaults
+  batch_size: 512
+  buffer_size: 10000
+  ent_coef: 0.1
+  gamma: 0.9999
+  gradient_steps: 32
+  learning_rate: 0.0003
+  learning_starts: 0
+  n_timesteps: 100000.0
+  policy: MlpPolicy
+  policy_kwargs: dict(log_std_init=-3.67, net_arch=[64, 64],features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=151,ssp_h=[1.0,
+    1.0]))
+  tau: 0.01
+  train_freq: 32
+  use_sde: true
+  
+ContinuousMaze-6x6-v0:
+  <<: *conmaze-defaults
+  
+ContinuousMaze-7x7-v0:
+  <<: *conmaze-defaults
+  
+ContinuousMaze-8x8-v0:
+  <<: *conmaze-defaults
+  
+ContinuousMaze-9x9-v0:
+  <<: *conmaze-defaults
+  n_timesteps: !!float 3e5
+  
+ContinuousMaze-10x10-v0:
+  <<: *conmaze-defaults
+  n_timesteps: !!float 3e5
+  
+ContinuousMaze-11x11-v0:
+  <<: *conmaze-defaults
+  n_timesteps: !!float 3e5
+  
+ContinuousMaze-12x12-v0:
+  <<: *conmaze-defaults
+  n_timesteps: !!float 3e5
+  
+ContinuousMaze-15x15-v0:
+  <<: *conmaze-defaults
+  n_timesteps: !!float 5e5
+  
+ContinuousMaze-20x20-v0:
+  <<: *conmaze-defaults
+  n_timesteps: !!float 1e6
+  
+  
+  
+ContinuousMazeBlocks-5x5-v0:
+  <<: *conmaze-defaults
+  
+ContinuousMazeBlocks-6x6-v0:
+  <<: *conmaze-defaults
+  
+ContinuousMazeBlocks-7x7-v0:
+  <<: *conmaze-defaults
+  
+ContinuousMazeBlocks-8x8-v0:
+  <<: *conmaze-defaults
+  
+ContinuousMazeBlocks-9x9-v0:
+  <<: *conmaze-defaults
+  n_timesteps: !!float 3e5
+  
+ContinuousMazeBlocks-10x10-v0:
+  <<: *conmaze-defaults
+  n_timesteps: !!float 3e5
+  
+ContinuousMazeBlocks-11x11-v0:
+  <<: *conmaze-defaults
+  n_timesteps: !!float 3e5
+  
+ContinuousMazeBlocks-12x12-v0:
+  <<: *conmaze-defaults
+  n_timesteps: !!float 3e5
+  
+ContinuousMazeBlocks-15x15-v0:
+  <<: *conmaze-defaults
+  n_timesteps: !!float 5e5
+  
+ContinuousMazeBlocks-19x19-v0:
+  <<: *conmaze-defaults
+  n_timesteps: !!float 1e6 
+  
 HalfCheetah-v4:
   learning_starts: 10000
   n_timesteps: 1000000.0
