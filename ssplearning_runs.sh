@@ -7,8 +7,8 @@
 
 module load python/3.10 scipy-stack
 
-source ~/projects/def-celiasmi/ns2dumon/slam/bin/activate
-cd ~/projects/def-celiasmi/ns2dumon/phd_thesis/slam_experiments
+source ~/projects/def-celiasmi/ns2dumon/rlenv2/bin/activate
+cd ~/projects/def-celiasmi/ns2dumon/rl-baselines3-zoo
 
 for seed in $(seq $SLURM_ARRAY_TASK_ID $SLURM_ARRAY_TASK_ID)
 
