@@ -8,7 +8,7 @@ LunarLanderContinuous-v2:
   noise_std: 0.1
   noise_type: normal
   policy: MlpPolicy
-  policy_kwargs: dict(net_arch=[400, 300],features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=451)
+  policy_kwargs: dict(net_arch=[400, 300],features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=451))
   train_freq: 1
 MountainCarContinuous-v0:
   batch_size: 256
@@ -18,7 +18,7 @@ MountainCarContinuous-v0:
   noise_std: 0.5
   noise_type: ornstein-uhlenbeck
   policy: MlpPolicy
-  policy_kwargs: dict(net_arch=[400, 300],features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=151)
+  policy_kwargs: dict(net_arch=[400, 300],features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=151))
   train_freq: 1
 Pendulum-v1:
   buffer_size: 200000
@@ -30,5 +30,5 @@ Pendulum-v1:
   noise_std: 0.1
   noise_type: normal
   policy: MlpPolicy
-  policy_kwargs: dict(net_arch=[400, 300],features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=201)
+  policy_kwargs: dict(net_arch=[400, 300],features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=201))
   train_freq: 1

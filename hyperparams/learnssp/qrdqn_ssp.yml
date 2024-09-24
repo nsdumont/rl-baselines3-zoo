@@ -9,7 +9,7 @@ Acrobot-v1:
   learning_starts: 0
   n_timesteps: 100000.0
   policy: MlpPolicy
-  policy_kwargs: dict(net_arch=[256, 256], n_quantiles=25,features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=351)
+  policy_kwargs: dict(net_arch=[256, 256], n_quantiles=25,features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=351))
   target_update_interval: 250
   train_freq: 4
 CartPole-v1:
@@ -23,7 +23,7 @@ CartPole-v1:
   learning_starts: 1000
   n_timesteps: 50000.0
   policy: MlpPolicy
-  policy_kwargs: dict(net_arch=[256, 256], n_quantiles=10,features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=251)
+  policy_kwargs: dict(net_arch=[256, 256], n_quantiles=10,features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=251))
   target_update_interval: 10
   train_freq: 256
 LunarLander-v2:
@@ -37,7 +37,7 @@ LunarLander-v2:
   learning_starts: 10000
   n_timesteps: 100000.0
   policy: MlpPolicy
-  policy_kwargs: dict(net_arch=[256, 256], n_quantiles=170,features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=451)
+  policy_kwargs: dict(net_arch=[256, 256], n_quantiles=170,features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=451))
   target_update_interval: 1
   train_freq: 256
 MountainCar-v0:
@@ -51,6 +51,6 @@ MountainCar-v0:
   learning_starts: 1000
   n_timesteps: 120000.0
   policy: MlpPolicy
-  policy_kwargs: dict(net_arch=[256, 256], n_quantiles=25,features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=151)
+  policy_kwargs: dict(net_arch=[256, 256], n_quantiles=25,features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=151))
   target_update_interval: 600
   train_freq: 16

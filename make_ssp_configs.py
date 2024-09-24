@@ -51,10 +51,10 @@ else:
                     ls = hyperparams[k]['env_wrapper'][0]['hrr_gym_wrappers.SSPObsWrapper']['length_scale']
                     hyperparams[k]['policy_kwargs']= existing_policy+\
                         ',features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=' + str(ssp_dim) + ',ssp_h='\
-                            + str(ls) + ')'
+                            + str(ls) + '))'
                 else:
                     hyperparams[k]['policy_kwargs']=existing_policy+\
-                        ',features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=' + str(ssp_dim) + ')'
+                        ',features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=' + str(ssp_dim) + '))'
                 hyperparams[k].pop('env_wrapper', None);
             else:
                 kremove.append(k)

@@ -14,7 +14,7 @@ Acrobot-v1:
   policy: MlpPolicy
   policy_kwargs: dict(net_arch=dict(pi=[64, 64], vf=[64, 64]),activation_fn=nn.ReLU,ortho_init=False,features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=225,ssp_h=[0.028142760643669197,
     16.769420234485487, 1.1949794271332383, 0.19860115953574767, 0.11197384800365881,
-    0.3108735565198609])
+    0.3108735565198609]))
   vf_coef: 0.19001510460449456
 CartPole-v1:
   batch_size: 256
@@ -29,7 +29,7 @@ CartPole-v1:
   n_timesteps: 100000.0
   policy: MlpPolicy
   policy_kwargs: dict(net_arch=dict(pi=[64], vf=[64]),activation_fn=nn.ReLU,features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=251,ssp_h=[0.96000004,
-    0.1, 0.083775806, 0.1])
+    0.1, 0.083775806, 0.1]))
 LunarLander-v2:
   batch_size: 64
   ent_coef: 0.01
@@ -40,7 +40,7 @@ LunarLander-v2:
   n_steps: 1024
   n_timesteps: 1000000.0
   policy: MlpPolicy
-  policy_kwargs: dict(net_arch=dict(pi=[64], vf=[64]),activation_fn=nn.ReLU,features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=451)
+  policy_kwargs: dict(net_arch=dict(pi=[64], vf=[64]),activation_fn=nn.ReLU,features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=451))
 LunarLanderContinuous-v2:
   batch_size: 64
   ent_coef: 0.01
@@ -51,7 +51,7 @@ LunarLanderContinuous-v2:
   n_steps: 1024
   n_timesteps: 1000000.0
   policy: MlpPolicy
-  policy_kwargs: dict(net_arch=dict(pi=[64], vf=[64]),activation_fn=nn.ReLU,features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=451)
+  policy_kwargs: dict(net_arch=dict(pi=[64], vf=[64]),activation_fn=nn.ReLU,features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=451))
 MountainCar-v0:
   ent_coef: 0.0
   gae_lambda: 0.98
@@ -62,7 +62,7 @@ MountainCar-v0:
   n_timesteps: 1000000.0
   policy: MlpPolicy
   policy_kwargs: ',features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=151,ssp_h=[0.34728204118474704,
-    0.15569961421392498])'
+    0.15569961421392498]))'
 MountainCarContinuous-v0:
   batch_size: 256
   clip_range: 0.1
@@ -77,7 +77,7 @@ MountainCarContinuous-v0:
   n_timesteps: 20000.0
   normalize: true
   policy: MlpPolicy
-  policy_kwargs: dict(log_std_init=-3.29, ortho_init=False,features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=151)
+  policy_kwargs: dict(log_std_init=-3.29, ortho_init=False,features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=151))
   use_sde: true
   vf_coef: 0.19
 Pendulum-v1:
@@ -92,31 +92,6 @@ Pendulum-v1:
   n_timesteps: 100000.0
   policy: MlpPolicy
   policy_kwargs: dict(net_arch=dict(pi=[64], vf=[64]),activation_fn=nn.ReLU,features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=73,ssp_h=[0.23239569118125408,
-    1.451069567569478, 1.1845291313041482])
+    1.451069567569478, 1.1845291313041482]))
   sde_sample_freq: 4
   use_sde: true
-  
-HalfCheetahBulletEnv-v0: &pybullet-defaults
-  normalize: true
-  n_envs: 16
-  n_timesteps: !!float 2e6
-  policy: 'MlpPolicy'
-  batch_size: 128
-  n_steps: 512
-  gamma: 0.99
-  gae_lambda: 0.9
-  n_epochs: 20
-  ent_coef: 0.0
-  sde_sample_freq: 4
-  max_grad_norm: 0.5
-  vf_coef: 0.5
-  learning_rate: !!float 3e-5
-  use_sde: True
-  clip_range: 0.4
-  policy_kwargs: "dict(log_std_init=-2,
-                       ortho_init=False,
-                       activation_fn=nn.ReLU,
-                       net_arch=dict(pi=[256, 256], vf=[256, 256]),
-                       features_extractor_class=hrr_gym_wrappers.SSPProcesser,
-                       features_extractor_kwargs=dict(features_dim=1001,basis_type='rand')
-                       )"
