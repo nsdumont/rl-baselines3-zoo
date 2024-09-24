@@ -1,3 +1,36 @@
+Ant-v4:
+  batch_size: 256
+  gradient_steps: 1
+  learning_rate: 0.001
+  learning_starts: 10000
+  n_timesteps: 1000000.0
+  noise_std: 0.1
+  noise_type: normal
+  policy: MlpPolicy
+  policy_kwargs: dict(net_arch=[400, 300],features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=501,basis_type="rand"))
+  train_freq: 1
+HalfCheetah-v4:
+  batch_size: 256
+  gradient_steps: 1
+  learning_rate: 0.001
+  learning_starts: 10000
+  n_timesteps: 1000000.0
+  noise_std: 0.1
+  noise_type: normal
+  policy: MlpPolicy
+  policy_kwargs: dict(net_arch=[400, 300],features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=501,basis_type="rand"))
+  train_freq: 1
+Hopper-v4:
+  batch_size: 256
+  gradient_steps: 1
+  learning_rate: 0.001
+  learning_starts: 10000
+  n_timesteps: 1000000.0
+  noise_std: 0.1
+  noise_type: normal
+  policy: MlpPolicy
+  policy_kwargs: dict(net_arch=[400, 300],features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=501,basis_type="rand"))
+  train_freq: 1
 LunarLanderContinuous-v2:
   buffer_size: 200000
   gamma: 0.98
@@ -31,4 +64,27 @@ Pendulum-v1:
   noise_type: normal
   policy: MlpPolicy
   policy_kwargs: dict(net_arch=[400, 300],features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=201))
+  train_freq: 1
+Swimmer-v4:
+  batch_size: 256
+  gamma: 0.9999
+  gradient_steps: 1
+  learning_rate: 0.001
+  learning_starts: 10000
+  n_timesteps: 1000000.0
+  noise_std: 0.1
+  noise_type: normal
+  policy: MlpPolicy
+  policy_kwargs: dict(net_arch=[400, 300],features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=501,basis_type="rand"))
+  train_freq: 1
+Walker2d-v4:
+  batch_size: 256
+  gradient_steps: 1
+  learning_rate: 0.001
+  learning_starts: 10000
+  n_timesteps: 1000000.0
+  noise_std: 0.1
+  noise_type: normal
+  policy: MlpPolicy
+  policy_kwargs: dict(net_arch=[400, 300],features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=501,basis_type="rand"))
   train_freq: 1

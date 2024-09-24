@@ -1,3 +1,18 @@
+Ant-v4:
+  learning_starts: 10000
+  n_timesteps: 1000000.0
+  policy: MlpPolicy
+  policy_kwargs: dict(features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=501,basis_type="rand"))
+HalfCheetah-v4:
+  learning_starts: 10000
+  n_timesteps: 1000000.0
+  policy: MlpPolicy
+  policy_kwargs: dict(features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=501,basis_type="rand"))
+Hopper-v4:
+  learning_starts: 10000
+  n_timesteps: 1000000.0
+  policy: MlpPolicy
+  policy_kwargs: dict(features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=501,basis_type="rand"))
 LunarLanderContinuous-v2:
   batch_size: 256
   buffer_size: 1000000
@@ -30,4 +45,15 @@ Pendulum-v1:
   learning_rate: 0.001
   n_timesteps: 20000
   policy: MlpPolicy
-  policy_kwargs: ',features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=201))'
+  policy_kwargs: dict(features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=201))
+Swimmer-v4:
+  gamma: 0.9999
+  learning_starts: 10000
+  n_timesteps: 1000000.0
+  policy: MlpPolicy
+  policy_kwargs: dict(features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=501,basis_type="rand"))
+Walker2d-v4:
+  learning_starts: 10000
+  n_timesteps: 1000000.0
+  policy: MlpPolicy
+  policy_kwargs: dict(features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=501,basis_type="rand"))

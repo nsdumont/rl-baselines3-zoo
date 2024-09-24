@@ -5,6 +5,9 @@ import gymnasium as gym
 
 algos = ['ppo', 'a2c', 'dqn','qrdqn','sac','td3','tqc','trpo']
 keep_envs = ["CartPole-v1", "Pendulum-v1", "MountainCar-v0" ,"MountainCarContinuous-v0", "LunarLander-v2","LunarLanderContinuous-v2", "Acrobot-v1"]
+
+other_envs = ["HalfCheetah-v4", "Ant-v4", "Hopper-v4", "Walker2d-v4", "Swimmer-v4"]
+
 # len_scale=[array([0.19399145]),
 #  array([0.03160698]),
 #  array([0.03160698]),
@@ -43,18 +46,18 @@ else:
         for k in hyperparams.keys():
             if k in keep_envs:
                 if 'policy_kwargs' in hyperparams[k]:
-                    existing_policy = hyperparams[k]['policy_kwargs'][:-1]
+                    existing_policy = hyperparams[k]['policy_kwargs'][:-1] +','
                 else:
-                    existing_policy = ''
+                    existing_policy = 'dict('
                 ssp_dim = hyperparams[k]['env_wrapper'][0]['hrr_gym_wrappers.SSPObsWrapper']['shape_out']
                 if 'length_scale' in hyperparams[k]['env_wrapper'][0]['hrr_gym_wrappers.SSPObsWrapper']:
                     ls = hyperparams[k]['env_wrapper'][0]['hrr_gym_wrappers.SSPObsWrapper']['length_scale']
                     hyperparams[k]['policy_kwargs']= existing_policy+\
-                        ',features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=' + str(ssp_dim) + ',ssp_h='\
+                        'features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=' + str(ssp_dim) + ',ssp_h='\
                             + str(ls) + '))'
                 else:
                     hyperparams[k]['policy_kwargs']=existing_policy+\
-                        ',features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=' + str(ssp_dim) + '))'
+                        'features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=' + str(ssp_dim) + '))'
                 hyperparams[k].pop('env_wrapper', None);
             else:
                 kremove.append(k)
@@ -64,5 +67,19 @@ else:
         for k in kremove:
             hyperparams.pop(k, None);
             
+        with open("hyperparams/" + algo + ".yml", 'r') as stream:
+            hyperparams2 = yaml.safe_load(stream)
+        for k in hyperparams2.keys():
+            if k in other_envs:
+                if 'policy_kwargs' in hyperparams2[k]:
+                    existing_policy = hyperparams2[k]['policy_kwargs'][:-1] +','
+                else:
+                    existing_policy = 'dict('
+                hyperparams[k] = hyperparams2[k]
+                hyperparams[k]['policy_kwargs']=existing_policy+\
+                    'features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=' + str(501) + ',basis_type="rand"))'
+            
+                
+                
         with open('hyperparams/learnssp/' + algo + '_ssp.yml', 'w') as outfile:
             yaml.dump(hyperparams, outfile, default_flow_style=False)
