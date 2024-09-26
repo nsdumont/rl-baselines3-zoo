@@ -6,9 +6,10 @@
 #SBATCH --array=0-5              # Adjust the array range as needed
 
 module load python/3.10 scipy-stack
-
 source ~/projects/def-celiasmi/ns2dumon/rlenv2/bin/activate
 cd ~/projects/def-celiasmi/ns2dumon/rl-baselines3-zoo
+module load python/3.10 scipy-stack mujoco
+
 
 for seed in $(seq $SLURM_ARRAY_TASK_ID $SLURM_ARRAY_TASK_ID)
 do
