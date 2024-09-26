@@ -50,7 +50,7 @@ ContinuousMaze-5x5-v0: &conmaze-defaults
   n_timesteps: 200000.0
   normalize: true
   policy: MlpPolicy
-  policy_kwargs: dict(activation_fn=nn.ReLU, net_arch=dict(pi=[64], vf=[64]), features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=151,ssp_h=[1.0,1.0]))
+  policy_kwargs: dict(activation_fn=nn.ReLU, net_arch=dict(pi=[64], vf=[64]), features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=151,ssp_h=[1.0,1.0],scale_min=0.9,scale_max=3.14159))
   vf_coef: 0.5726555590232599
 
 ContinuousMaze-6x6-v0:
@@ -255,3 +255,103 @@ Walker2d-v4:
   policy: MlpPolicy
   policy_kwargs: dict(features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=501,basis_type="rand"))
   vf_coef: 0.871923
+  
+  
+  
+MiniGrid-Empty-Random-5x5-v0: &minigrid-defaults
+  env_wrapper: 
+  - hrr_gym_wrappers.PrepMiniGridViewFlatWrapper:
+      shape_out: 201
+  n_envs: 8 # number of environment copies running in parallel
+  n_timesteps: !!float 1e5
+  policy: 'MlpPolicy'
+  n_steps: 128 # batch size is n_steps * n_env
+  batch_size: 64 # Number of training minibatches per update
+  gae_lambda: 0.95 #  Factor for trade-off of bias vs variance for Generalized Advantage Estimator
+  gamma: 0.99
+  n_epochs: 10 #  Number of epoch when optimizing the surrogate
+  ent_coef: 0.0 # Entropy coefficient for the loss caculation
+  learning_rate: 2.5e-4 # The learning rate, it can be a function
+  clip_range: 0.2 # Clipping parameter, it can be a function
+  policy_kwargs: dict(features_extractor_class=hrr_gym_wrappers.SSPMiniGridViewProcesser,features_extractor_kwargs=dict(features_dim=201, ssp_h=[1.,1.,0.1]))
+
+
+MiniGrid-Empty-5x5-v0:
+  <<: *minigrid-defaults
+  
+MiniGrid-Empty-8x8-v0:
+  <<: *minigrid-defaults
+  n_timesteps: !!float 1e5
+  
+MiniGrid-Empty-16x16-v0:
+  <<: *minigrid-defaults
+  n_timesteps: !!float 1e5
+
+MiniGrid-FourRooms-v0:
+  <<: *minigrid-defaults
+  n_timesteps: !!float 1e6
+
+
+MiniGrid-DoorKey-5x5-v0:
+  <<: *minigrid-defaults
+  n_timesteps: !!float 1e5
+  
+MiniGrid-DoorKey-6x6-v0:
+  <<: *minigrid-defaults
+  n_timesteps: !!float 1e5
+  
+MiniGrid-DoorKey-8x8-v0:
+  <<: *minigrid-defaults
+  n_timesteps: !!float 1e6
+
+MiniGrid-MultiRoom-N4-S5-v0:
+  <<: *minigrid-defaults
+  n_timesteps: !!float 1e7 # Unsolved
+
+MiniGrid-Fetch-5x5-N2-v0: &babyai-defaults
+  n_envs: 8 # number of environment copies running in parallel
+  n_timesteps: !!float 1e5
+  policy: 'MlpPolicy'
+  n_steps: 128 # batch size is n_steps * n_env
+  batch_size: 64 # Number of training minibatches per update
+  gae_lambda: 0.95 #  Factor for trade-off of bias vs variance for Generalized Advantage Estimator
+  gamma: 0.99
+  n_epochs: 10 #  Number of epoch when optimizing the surrogate
+  ent_coef: 0.0 # Entropy coefficient for the loss caculation
+  learning_rate: 2.5e-4 # The learning rate, it can be a function
+  clip_range: 0.2 # Clipping parameter, it can be a function
+  env_wrapper: 
+  - hrr_gym_wrappers.PrepBabyAIFlatWrapper:
+      shape_out: 201
+  n_timesteps: !!float 5e6
+  policy_kwargs: dict(features_extractor_class=hrr_gym_wrappers.SSPBabyAIViewProcesser,features_extractor_kwargs=dict(features_dim=201, ssp_h=[1.,1.,0.1]))
+
+
+MiniGrid-GoToDoor-5x5-v0:
+  <<: *babyai-defaults
+  n_timesteps: !!float 5e6
+
+MiniGrid-PutNear-6x6-N2-v0:
+  <<: *babyai-defaults
+  n_timesteps: !!float 1e7
+
+MiniGrid-RedBlueDoors-6x6-v0:
+  <<: *babyai-defaults
+  n_timesteps: !!float 1e6
+  n_steps: 512
+
+MiniGrid-LockedRoom-v0:
+  <<: *babyai-defaults
+  env_wrapper: 
+  n_timesteps: !!float 1e7 # Unsolved
+
+MiniGrid-KeyCorridorS3R1-v0:
+  <<: *babyai-defaults
+  n_timesteps: !!float 5e5
+
+MiniGrid-Unlock-v0:
+  <<: *babyai-defaults
+
+MiniGrid-ObstructedMaze-2Dlh-v0:
+  <<: *babyai-defaults
+  n_timesteps: !!float 1e7 # Unsolved
