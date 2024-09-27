@@ -307,6 +307,13 @@ MiniGrid-DoorKey-8x8-v0:
 MiniGrid-MultiRoom-N4-S5-v0:
   <<: *minigrid-defaults
   n_timesteps: !!float 1e7 # Unsolved
+  
+MiniGrid-Unlock-v0:
+  <<: *minigrid-defaults
+  
+MiniGrid-SimpleCrossingS11N5-v0:
+  <<: *minigrid-defaults
+  n_timesteps: !!float 1e5
 
 MiniGrid-Fetch-5x5-N2-v0: &babyai-defaults
   n_envs: 8 # number of environment copies running in parallel
@@ -349,8 +356,9 @@ MiniGrid-KeyCorridorS3R1-v0:
   <<: *babyai-defaults
   n_timesteps: !!float 5e5
 
-MiniGrid-Unlock-v0:
+BabyAI-GoToLocalS8N7-v0:
   <<: *babyai-defaults
+  n_timesteps: !!float 5e5
 
 MiniGrid-ObstructedMaze-2Dlh-v0:
   <<: *babyai-defaults
