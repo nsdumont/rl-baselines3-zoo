@@ -1,0 +1,77 @@
+import argparse
+import yaml
+
+def create_yml(args):
+    if args.view:
+        content = {
+            args.env: {
+                "env_wrapper": [
+                    {
+                        "hrr_gym_wrappers.PrepMiniGridViewFlatWrapper": {
+                            "shape_out": 201
+                        }
+                    }
+                ],
+                "n_envs": 8,
+                "n_timesteps": float(args.n),
+                "policy": "MlpPolicy",
+                "n_steps": 128,
+                "batch_size": 64,
+                "gae_lambda": 0.95,
+                "gamma": 0.99,
+                "n_epochs": 10,
+                "ent_coef": 0.0,
+                "learning_rate": 2.5e-4,
+                "clip_range": 0.2,
+                "policy_kwargs": f"dict(features_extractor_class=hrr_gym_wrappers.SSPMiniGridViewProcesser, features_extractor_kwargs=dict(features_dim={args.ssp_dim}, ssp_h=[1.,1.,0.1]))"
+            }
+        }
+    else:
+        content = {
+            args.env: {
+                "env_wrapper": [
+                    "hrr_gym_wrappers.MiniGridXYFlatWrapper"
+                ],
+                "n_envs": 8,
+                "n_timesteps": float(args.n),
+                "policy": "MlpPolicy",
+                "n_steps": 128,
+                "batch_size": 64,
+                "gae_lambda": 0.95,
+                "gamma": 0.99,
+                "n_epochs": 10,
+                "ent_coef": 0.0,
+                "learning_rate": 2.5e-4,
+                "clip_range": 0.2,
+                "policy_kwargs": f"dict(features_extractor_class=hrr_gym_wrappers.SSPProcesser, features_extractor_kwargs=dict(features_dim={args.ssp_dim}, ssp_h=[1.,1.,0.1]))"
+            }
+        }
+    if args.env=="MiniGrid-FourRooms-v0":
+        content[args.env].update( {
+                'batch_size': 16,
+                'n_steps': 512,
+                'gamma': 0.995,
+                'learning_rate': 0.0002667131432316635,
+                'ent_coef': 0.00014739249767857526,
+                'clip_range': 0.1,
+                'n_epochs': 10,
+                'gae_lambda': 0.99,
+                'max_grad_norm': 0.6,
+                'vf_coef': 0.4834382740594195,
+                'net_arch': 'medium',
+                'activation_fn': 'relu'} )
+
+    # Save the content to a YAML file named "temp.yml"
+    with open("temp.yml", "w") as file:
+        yaml.dump(content, file, default_flow_style=False)
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Create a YAML config file.")
+    parser.add_argument('--env', type=str, required=True, help="The environment name.")
+    parser.add_argument('--n', type=float, required=True, help="Number of timesteps.")
+    parser.add_argument('--ssp-dim', type=int, required=True, help="Dimension of SSP.")
+    parser.add_argument('--view', action='store_true', help="Include view wrapper if set.")
+
+    args = parser.parse_args()
+
+    create_yml(args)
