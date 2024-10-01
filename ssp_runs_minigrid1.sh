@@ -1,4 +1,4 @@
-project=minigrid
+project=minigrid2
 sspdim=201
 environments=("MiniGrid-Unlock-v0" "MiniGrid-Empty-8x8-v0" "MiniGrid-Empty-16x16-v0" \
                "MiniGrid-DoorKey-5x5-v0" "MiniGrid-DoorKey-8x8-v0" \
@@ -24,22 +24,22 @@ do
         
         python create_temp_ssp_config.py --env $env --n $ntimesteps --type default
     
-        python train.py --env $env --algo ppo --seed $seed --verbose 0 --gym-packages minigrid2 --conf-file temp.yml \
+        python train.py --env $env --algo ppo --seed $seed --verbose 0 --gym-packages minigrid --conf-file temp.yml \
              --track --wandb-project-name $project --wandb-entity nicole-s-dumont --wandb-tags default-obs 
              
         python create_temp_ssp_config.py --env $env --n $ntimesteps --ssp-dim $sspdim  --type view
              
-        python train.py --env $env --algo ppo --seed $seed --verbose 0 --gym-packages minigrid2 --conf-file temp.yml \
+        python train.py --env $env --algo ppo --seed $seed --verbose 0 --gym-packages minigrid --conf-file temp.yml \
             --track --wandb-project-name $project --wandb-entity nicole-s-dumont --wandb-tags learnsspview-obs
             
         python create_temp_ssp_config.py --env $env --n $ntimesteps --ssp-dim $sspdim --type xy
             
-        python train.py --env $env --algo ppo --seed $seed --verbose 0 --gym-packages minigrid2 --conf-file temp.yml \
+        python train.py --env $env --algo ppo --seed $seed --verbose 0 --gym-packages minigrid --conf-file temp.yml \
             --track --wandb-project-name $project --wandb-entity nicole-s-dumont --wandb-tags learnsspxy-obs
             
         python create_temp_ssp_config.py --env $env --n $ntimesteps --ssp-dim $sspdim  --type view2
              
-        python train.py --env $env --algo ppo --seed $seed --verbose 0 --gym-packages minigrid2 --conf-file temp.yml \
+        python train.py --env $env --algo ppo --seed $seed --verbose 0 --gym-packages minigrid --conf-file temp.yml \
             --track --wandb-project-name $project --wandb-entity nicole-s-dumont --wandb-tags learnsspview2-obs
     done
 done
