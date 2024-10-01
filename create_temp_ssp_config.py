@@ -1,8 +1,6 @@
 import argparse
-# import yaml
-from ruamel.yaml import YAML
-from ruamel.yaml.scalarstring import PreservedScalarString
-yaml = YAML()
+import yaml
+
 
 def create_yml(args):
     if args.type=='view':
