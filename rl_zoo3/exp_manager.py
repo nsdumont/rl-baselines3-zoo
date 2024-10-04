@@ -778,7 +778,7 @@ class ExperimentManager:
             raise ValueError(f"Unknown pruner: {pruner_method}")
         return pruner
 
-    def objective(self, trial: optuna.Trial) -> float:
+    def _objective(self, trial: optuna.Trial, seed=None) -> float:
         kwargs = self._hyperparams.copy()
 
         n_envs = 1 if self.algo == "ars" else self.n_envs
@@ -811,7 +811,7 @@ class ExperimentManager:
             env=env,
             tensorboard_log=None,
             # We do not seed the trial
-            seed=None,
+            seed=seed,
             verbose=trial_verbosity,
             device=self.device,
             **kwargs,
@@ -874,15 +874,16 @@ class ExperimentManager:
 
         return reward
     
-        # def objective_wrapper(self, trial, nrseeds):
-        #     res = []
-        #     for ii in range(nrseeds):
-        #         rr = self.objective(trial, seed=ii)
-        #         res.append(rr)
-        
-        #     # add the individual results as an attribute to the trial if you want
-        #     trial.set_user_attr("individual_seed_results", res)
-        #     return sum(res)/len(res)
+    def objective(self, trial, nrseeds=3):
+        res = []
+        for ii in range(nrseeds):
+            seed = np.random.randint(0, 100)
+            rr = self._objective(trial, seed=seed)
+            res.append(rr)
+
+        # add the individual results as an attribute to the trial if you want
+        trial.set_user_attr("individual_seed_results", res)
+        return np.mean(res)
 
     def hyperparameters_optimization(self) -> None:
         if self.verbose > 0:
