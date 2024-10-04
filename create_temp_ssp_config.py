@@ -6,8 +6,8 @@ import numpy as np
 
 def create_yml(args):
     env = gym.make(args.env)
-    pos_ls = np.min([env.unwrapped.height,env.unwrapped.width])/10.
-    dir_ls = 4./10.
+    pos_ls = 10./np.min([env.unwrapped.height,env.unwrapped.width])
+    dir_ls = 10./4
     if args.type=='view':
         content = {
             args.env: {
