@@ -77,8 +77,25 @@ def create_yml(args):
             }
         }
     else:
+        ymlname = f"ppo-{args.env}"
         content = {
             args.env: {
+                "env_wrapper": [
+                    "minigrid.wrappers.FlatObsWrapper"
+                ],
+                "n_envs": 8,
+                "n_timesteps": float(args.n),
+                "policy": "MlpPolicy",
+                "n_steps": 128,
+                "batch_size": 64,
+                "gae_lambda": 0.95,
+                "gamma": 0.99,
+                "n_epochs": 10,
+                "ent_coef": 0.0,
+                "learning_rate": 2.5e-4,
+                "clip_range": 0.2
+            },
+            ymlname: {
                 "env_wrapper": [
                     "minigrid.wrappers.FlatObsWrapper"
                 ],
