@@ -129,6 +129,7 @@ ContinuousMazeBlocks-20x20-v0:
 
 #tuned
 Ant-v4:
+  normalize: true
   n_timesteps: 1000000.0
   batch_size: 8
   n_steps: 512
@@ -145,6 +146,7 @@ Ant-v4:
 
 #tuned
 HalfCheetah-v4:
+  normalize: true
   n_timesteps: !!float 1e6
   batch_size: 32
   n_steps: 512
@@ -161,6 +163,7 @@ HalfCheetah-v4:
 
  # tuned 
 Hopper-v4:
+  normalize: true
   n_timesteps: !!float 1e6
   batch_size: 32
   n_steps: 512
@@ -177,6 +180,7 @@ Hopper-v4:
 
   
 InvertedDoublePendulum-v4:
+  normalize: true
   policy: 'MlpPolicy'
   n_timesteps: !!float 1e6
   batch_size: 16
