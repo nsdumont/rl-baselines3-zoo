@@ -1,15 +1,20 @@
 import argparse
 import yaml
-
+import gymnasium as gym
+import minigrid
+import numpy as np
 
 def create_yml(args):
+    env = gym.make(args.env)
+    pos_ls = np.min([env.unwrapped.height,env.unwrapped.width])/10.
+    dir_ls = 4./10.
     if args.type=='view':
         content = {
             args.env: {
                 "env_wrapper": [
                     {
                         "hrr_gym_wrappers.PrepMiniGridViewFlatWrapper": {
-                            "shape_out": 201
+                            "shape_out": args.ssp_dim
                         }
                     }
                 ],
@@ -24,7 +29,7 @@ def create_yml(args):
                 "ent_coef": 0.0,
                 "learning_rate": 2.5e-4,
                 "clip_range": 0.2,
-                "policy_kwargs": f"dict(features_extractor_class=hrr_gym_wrappers.SSPMiniGridViewProcesser, features_extractor_kwargs=dict(features_dim={args.ssp_dim}, ssp_h=[1.,1.,0.1]))"
+                "policy_kwargs": f"dict(features_extractor_class=hrr_gym_wrappers.SSPMiniGridViewProcesser, features_extractor_kwargs=dict(features_dim={args.ssp_dim}, ssp_h=[{pos_ls},{pos_ls},{dir_ls}]))"
             }
         }
     elif args.type=='view2':
@@ -33,7 +38,7 @@ def create_yml(args):
                 "env_wrapper": [
                     {
                         "hrr_gym_wrappers.PrepMiniGridViewFlatWrapper2": {
-                            "shape_out": 201
+                            "shape_out": args.ssp_dim
                         }
                     }
                 ],
@@ -48,7 +53,7 @@ def create_yml(args):
                 "ent_coef": 0.0,
                 "learning_rate": 2.5e-4,
                 "clip_range": 0.2,
-                "policy_kwargs": f"dict(features_extractor_class=hrr_gym_wrappers.SSPMiniGridViewProcesser, features_extractor_kwargs=dict(features_dim={args.ssp_dim}, ssp_h=[1.,1.,0.1]))"
+                "policy_kwargs": f"dict(features_extractor_class=hrr_gym_wrappers.SSPMiniGridViewProcesser, features_extractor_kwargs=dict(features_dim={args.ssp_dim}, ssp_h=[{pos_ls},{pos_ls},{dir_ls}]))"
             }
         }
     elif args.type=='xy':
@@ -68,7 +73,7 @@ def create_yml(args):
                 "ent_coef": 0.0,
                 "learning_rate": 2.5e-4,
                 "clip_range": 0.2,
-                "policy_kwargs": f"dict(features_extractor_class=hrr_gym_wrappers.SSPProcesser, features_extractor_kwargs=dict(features_dim={args.ssp_dim}, ssp_h=[1.,1.,0.1]))"
+                "policy_kwargs": f"dict(features_extractor_class=hrr_gym_wrappers.SSPProcesser, features_extractor_kwargs=dict(features_dim={args.ssp_dim}, ssp_h=[{pos_ls},{pos_ls},{dir_ls}]))"
             }
         }
     else:
@@ -92,24 +97,24 @@ def create_yml(args):
         }
         
         
-    if (args.env=="MiniGrid-FourRooms-v0") :
-        if (args.type == "default"):
-            content[args.env].update( { 'n_steps': 512 })
-            content[args.env]['policy_kwargs'] = "dict(net_arch=dict(pi=[256, 256], vf=[256, 256]))"
+    # if (args.env=="MiniGrid-FourRooms-v0") :
+    #     if (args.type == "default"):
+    #         content[args.env].update( { 'n_steps': 512 })
+    #         content[args.env]['policy_kwargs'] = "dict(net_arch=dict(pi=[256, 256], vf=[256, 256]))"
         
-        else:
-            content[args.env].update( {
-                    'batch_size': 16,
-                    'n_steps': 512,
-                    'gamma': 0.995,
-                    'learning_rate': 0.0002667131432316635,
-                    'ent_coef': 0.00014739249767857526,
-                    'clip_range': 0.1,
-                    'n_epochs': 10,
-                    'gae_lambda': 0.99,
-                    'max_grad_norm': 0.6,
-                    'vf_coef': 0.4834382740594195} )
-            content[args.env]['policy_kwargs'] = content[args.env]['policy_kwargs'][:-1] + ", activation_fn=nn.ReLU, net_arch=dict(pi=[256, 256], vf=[256, 256]))"
+    #     else:
+    #         content[args.env].update( {
+    #                 'batch_size': 16,
+    #                 'n_steps': 512,
+    #                 'gamma': 0.995,
+    #                 'learning_rate': 0.0002667131432316635,
+    #                 'ent_coef': 0.00014739249767857526,
+    #                 'clip_range': 0.1,
+    #                 'n_epochs': 10,
+    #                 'gae_lambda': 0.99,
+    #                 'max_grad_norm': 0.6,
+    #                 'vf_coef': 0.4834382740594195} )
+    #         content[args.env]['policy_kwargs'] = content[args.env]['policy_kwargs'][:-1] + ", activation_fn=nn.ReLU, net_arch=dict(pi=[256, 256], vf=[256, 256]))"
         
 
     # Save the content to a YAML file named "temp.yml"
