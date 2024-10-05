@@ -106,12 +106,12 @@ def sample_ppo_params(trial: optuna.Trial, n_actions: int, n_envs: int, addition
         "max_grad_norm": max_grad_norm,
         "vf_coef": vf_coef,
         # "sde_sample_freq": sde_sample_freq,
-        "policy_kwargs": dict(
+        "policy_kwargs": additional_args["policy_kwargs"].update(dict(
             # log_std_init=log_std_init,
             net_arch=net_arch,
             activation_fn=activation_fn,
             ortho_init=ortho_init,
-        ),
+        )),
     }
 
 
@@ -194,12 +194,12 @@ def sample_trpo_params(trial: optuna.Trial, n_actions: int, n_envs: int, additio
         "learning_rate": learning_rate,
         "gae_lambda": gae_lambda,
         # "sde_sample_freq": sde_sample_freq,
-        "policy_kwargs": dict(
+        "policy_kwargs": additional_args["policy_kwargs"].update(dict(
             # log_std_init=log_std_init,
             net_arch=net_arch,
             activation_fn=activation_fn,
             ortho_init=ortho_init,
-        ),
+        )),
     }
 
 
@@ -253,14 +253,14 @@ def sample_a2c_params(trial: optuna.Trial, n_actions: int, n_envs: int, addition
         "max_grad_norm": max_grad_norm,
         "use_rms_prop": use_rms_prop,
         "vf_coef": vf_coef,
-        "policy_kwargs": dict(
+        "policy_kwargs": additional_args["policy_kwargs"].update(dict(
             # log_std_init=log_std_init,
             net_arch=net_arch,
             # full_std=full_std,
             activation_fn=activation_fn,
             # sde_net_arch=sde_net_arch,
             ortho_init=ortho_init,
-        ),
+        )),
     }
 
 
@@ -313,7 +313,7 @@ def sample_sac_params(trial: optuna.Trial, n_actions: int, n_envs: int, addition
         "ent_coef": ent_coef,
         "tau": tau,
         "target_entropy": target_entropy,
-        "policy_kwargs": dict(log_std_init=log_std_init, net_arch=net_arch),
+        "policy_kwargs":  additional_args["policy_kwargs"].update(dict(log_std_init=log_std_init, net_arch=net_arch)),
     }
 
     if additional_args["using_her_replay_buffer"]:
@@ -359,7 +359,7 @@ def sample_td3_params(trial: optuna.Trial, n_actions: int, n_envs: int, addition
         "buffer_size": buffer_size,
         "train_freq": train_freq,
         "gradient_steps": gradient_steps,
-        "policy_kwargs": dict(net_arch=net_arch),
+        "policy_kwargs": additional_args["policy_kwargs"].update(dict(net_arch=net_arch)),
         "tau": tau,
     }
 
@@ -412,7 +412,7 @@ def sample_ddpg_params(trial: optuna.Trial, n_actions: int, n_envs: int, additio
         "buffer_size": buffer_size,
         "train_freq": train_freq,
         "gradient_steps": gradient_steps,
-        "policy_kwargs": dict(net_arch=net_arch),
+        "policy_kwargs": additional_args["policy_kwargs"].update(dict(net_arch=net_arch)),
     }
 
     if noise_type == "normal":
@@ -465,7 +465,7 @@ def sample_dqn_params(trial: optuna.Trial, n_actions: int, n_envs: int, addition
         "exploration_final_eps": exploration_final_eps,
         "target_update_interval": target_update_interval,
         "learning_starts": learning_starts,
-        "policy_kwargs": dict(net_arch=net_arch),
+        "policy_kwargs": additional_args["policy_kwargs"].update(dict(net_arch=net_arch)),
     }
 
     if additional_args["using_her_replay_buffer"]:
@@ -568,75 +568,6 @@ def sample_ars_params(trial: optuna.Trial, n_actions: int, n_envs: int, addition
 
 
 
-def sample_ppo_ssp_params(trial: optuna.Trial, n_actions: int, n_envs: int, additional_args: dict) -> Dict[str, Any]:
-    """
-    Sampler for PPO hyperparams.
-
-    :param trial:
-    :return:
-    """
-    domain_dim = additional_args['domain_dim']
-    ssp_dim = trial.suggest_categorical("ssp_dim", [2*(domain_dim+1)*(i**2) + 1 for i in range(2,8)])
-    len_scale = np.zeros(domain_dim)
-    for d in range(domain_dim):
-        len_scale[d] = trial.suggest_float("ssp_len_scale"+str(d), 0.0001, 100, log=True)
-    
-    batch_size = trial.suggest_categorical("batch_size", [8, 16, 32, 64, 128, 256, 512])
-    n_steps = trial.suggest_categorical("n_steps", [8, 16, 32, 64, 128, 256, 512, 1024, 2048])
-    gamma = trial.suggest_categorical("gamma", [0.9, 0.95, 0.98, 0.99, 0.995, 0.999, 0.9999])
-    learning_rate = trial.suggest_float("learning_rate", 1e-5, 1, log=True)
-    ent_coef = trial.suggest_float("ent_coef", 0.00000001, 0.1, log=True)
-    clip_range = trial.suggest_categorical("clip_range", [0.1, 0.2, 0.3, 0.4])
-    n_epochs = trial.suggest_categorical("n_epochs", [1, 5, 10, 20])
-    gae_lambda = trial.suggest_categorical("gae_lambda", [0.8, 0.9, 0.92, 0.95, 0.98, 0.99, 1.0])
-    max_grad_norm = trial.suggest_categorical("max_grad_norm", [0.3, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 2, 5])
-    vf_coef = trial.suggest_float("vf_coef", 0, 1)
-    net_arch_type = trial.suggest_categorical("net_arch", ["tiny", "small", "medium"])
-    # Uncomment for gSDE (continuous actions)
-    # log_std_init = trial.suggest_float("log_std_init", -4, 1)
-    # Uncomment for gSDE (continuous action)
-    # sde_sample_freq = trial.suggest_categorical("sde_sample_freq", [-1, 8, 16, 32, 64, 128, 256])
-    # Orthogonal initialization
-    ortho_init = False
-    # ortho_init = trial.suggest_categorical('ortho_init', [False, True])
-    # activation_fn = trial.suggest_categorical('activation_fn', ['tanh', 'relu', 'elu', 'leaky_relu'])
-    activation_fn_name = trial.suggest_categorical("activation_fn", ["tanh", "relu"])
-    # lr_schedule = "constant"
-    # Uncomment to enable learning rate schedule
-    # lr_schedule = trial.suggest_categorical('lr_schedule', ['linear', 'constant'])
-    # if lr_schedule == "linear":
-    #     learning_rate = linear_schedule(learning_rate)
-
-    # TODO: account when using multiple envs
-    if batch_size > n_steps:
-        batch_size = n_steps
-
-    # Independent networks usually work best
-    # when not working with images
-    net_arch = net_arch_maps['ppo'][net_arch_type]
-
-    activation_fn = all_activation_funs[activation_fn_name]
-
-    return {
-        "env_wrapper": [{"hrr_gym_wrappers.SSPObsWrapper": {"shape_out": ssp_dim, "length_scale":len_scale}}],
-        "n_steps": n_steps,
-        "batch_size": batch_size,
-        "gamma": gamma,
-        "learning_rate": learning_rate,
-        "ent_coef": ent_coef,
-        "clip_range": clip_range,
-        "n_epochs": n_epochs,
-        "gae_lambda": gae_lambda,
-        "max_grad_norm": max_grad_norm,
-        "vf_coef": vf_coef,
-        # "sde_sample_freq": sde_sample_freq,
-        "policy_kwargs": dict(
-            # log_std_init=log_std_init,
-            net_arch=net_arch,
-            activation_fn=activation_fn,
-            ortho_init=ortho_init,
-        ),
-    }
 
 
 
@@ -663,12 +594,10 @@ HYPERPARAMS_SAMPLER = {
     "dqn_ssp": sample_ssp_params,
     "ddpg": sample_ddpg_params,
     "qrdqn": sample_qrdqn_params,
-    "sac": sample_sac_params,
-    "sac_ssp": sample_ssp_params,
+    "sac": sample_sac_params,#"sac_ssp": sample_ssp_params,
     "tqc": sample_tqc_params,
     "tqc_ssp": sample_ssp_params,
-    "ppo": sample_ppo_params,
-    "ppo_ssp": sample_ppo_ssp_params,
+    "ppo": sample_ppo_params,#"ppo_ssp": sample_ppo_ssp_params,
     "ppo_lstm": sample_ppo_lstm_params,
     "td3": sample_td3_params,
     "trpo": sample_trpo_params,

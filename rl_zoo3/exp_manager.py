@@ -787,6 +787,7 @@ class ExperimentManager:
             "using_her_replay_buffer": kwargs.get("replay_buffer_class") == HerReplayBuffer,
             "her_kwargs": kwargs.get("replay_buffer_kwargs", {}),
             "domain_dim": self.domain_dim,
+            "policy_kwargs": kwargs.get("policy_kwargs", {}),
         }
         # Pass n_actions to initialize DDPG/TD3 noise sampler
         # Sample candidate hyperparameters
@@ -874,10 +875,10 @@ class ExperimentManager:
 
         return reward
     
-    def objective(self, trial, nrseeds=3):
+    def objective(self, trial, nseeds=3):
         res = []
         seeds = []
-        for ii in range(nrseeds):
+        for ii in range(nseeds):
             seed = np.random.randint(0, 100)
             rr = self._objective(trial, seed=seed)
             res.append(rr)
