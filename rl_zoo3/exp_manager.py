@@ -876,13 +876,16 @@ class ExperimentManager:
     
     def objective(self, trial, nrseeds=3):
         res = []
+        seeds = []
         for ii in range(nrseeds):
             seed = np.random.randint(0, 100)
             rr = self._objective(trial, seed=seed)
             res.append(rr)
+            seeds.append(seed)
 
         # add the individual results as an attribute to the trial if you want
         trial.set_user_attr("individual_seed_results", res)
+        trial.set_user_attr("individual_seeds", seeds)
         return np.mean(res)
 
     def hyperparameters_optimization(self) -> None:
