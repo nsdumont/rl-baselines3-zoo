@@ -264,10 +264,9 @@ Pendulum-v1:
   policy: MlpPolicy
   policy_kwargs: dict(net_arch=dict(pi=[64, 64], vf=[64, 64]),activation_fn=nn.ReLU,features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=73,ssp_h=[0.23239569118125408,
     1.451069567569478, 1.1845291313041482]))
-    
-    
   sde_sample_freq: 4
   use_sde: true
+  
 Swimmer-v4:
   batch_size: 256
   gae_lambda: 0.98
