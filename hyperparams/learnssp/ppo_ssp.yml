@@ -259,7 +259,7 @@ Pendulum-v1:
   n_epochs: 10
   gae_lambda: 0.92
   max_grad_norm: 0.9
-  vf_coef: 0.9779022958726488, 'net_arch': 'small', 'activation_fn': 'relu'}
+  vf_coef: 0.9779022958726488
   n_timesteps: 100000.0
   policy: MlpPolicy
   policy_kwargs: dict(net_arch=dict(pi=[64, 64], vf=[64, 64]),activation_fn=nn.ReLU,features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=73,ssp_h=[0.23239569118125408,
