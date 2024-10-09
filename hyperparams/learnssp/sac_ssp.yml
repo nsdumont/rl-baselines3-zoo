@@ -102,8 +102,17 @@ HalfCheetah-v4: &mujoco-defaults #17 dim
 # Ant-v4:
 #   <<: *mujoco-defaults
 
+#tuned
 Hopper-v4: #11
   <<: *mujoco-defaults
+  gamma: 0.99
+  learning_rate: 0.0004983758833984422
+  batch_size: 2048
+  buffer_size: 1000000
+  learning_starts: 1000
+  train_freq: 512
+  tau: 0.02
+  policy_kwargs: dict(log_std_init=-0.18224045124845256,net_arch=[400, 300],features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=501,basis_type="rand"))
 
 Walker2d-v4: #17
   <<: *mujoco-defaults
