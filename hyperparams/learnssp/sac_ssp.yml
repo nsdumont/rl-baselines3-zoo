@@ -128,13 +128,13 @@ Hopper-v4: #11
 Walker2d-v4: #17
   <<: *mujoco-defaults
   gamma: 0.99
-  learning_rate: 8.01432350152153e-05
+  learning_rate: 0.0029507169814105574
   batch_size: 128
   buffer_size: 100000
   learning_starts: 10000
-  train_freq: 256
+  train_freq: 16
   tau: 0.01
-  policy_kwargs: dict(log_std_init=-2.17822369270466747,net_arch=[256, 256],features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=577,basis_type="hex"))
+  policy_kwargs: dict(log_std_init=-3.0010371188144234,net_arch=[256, 256],features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=577,basis_type="hex"))
 
 
 # Humanoid-v4:
