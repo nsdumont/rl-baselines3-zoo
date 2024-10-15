@@ -93,7 +93,12 @@ def sample_ppo_params(trial: optuna.Trial, n_actions: int, n_envs: int, addition
     net_arch = net_arch_maps['ppo'][net_arch_type]
 
     activation_fn = all_activation_funs[activation_fn_name]
-
+    additional_args["policy_kwargs"].update(dict(
+        # log_std_init=log_std_init,
+        net_arch=net_arch,
+        activation_fn=activation_fn,
+        ortho_init=ortho_init,
+    ))
     return {
         "n_steps": n_steps,
         "batch_size": batch_size,
@@ -106,12 +111,7 @@ def sample_ppo_params(trial: optuna.Trial, n_actions: int, n_envs: int, addition
         "max_grad_norm": max_grad_norm,
         "vf_coef": vf_coef,
         # "sde_sample_freq": sde_sample_freq,
-        "policy_kwargs": additional_args["policy_kwargs"].update(dict(
-            # log_std_init=log_std_init,
-            net_arch=net_arch,
-            activation_fn=activation_fn,
-            ortho_init=ortho_init,
-        )),
+        "policy_kwargs": additional_args["policy_kwargs"],
     }
 
 
@@ -181,7 +181,12 @@ def sample_trpo_params(trial: optuna.Trial, n_actions: int, n_envs: int, additio
     net_arch = net_arch_maps['trpo'][net_arch_type]
 
     activation_fn = all_activation_funs[activation_fn_name]
-
+    additional_args["policy_kwargs"].update(dict(
+        # log_std_init=log_std_init,
+        net_arch=net_arch,
+        activation_fn=activation_fn,
+        ortho_init=ortho_init,
+    ))
     return {
         "n_steps": n_steps,
         "batch_size": batch_size,
@@ -194,12 +199,7 @@ def sample_trpo_params(trial: optuna.Trial, n_actions: int, n_envs: int, additio
         "learning_rate": learning_rate,
         "gae_lambda": gae_lambda,
         # "sde_sample_freq": sde_sample_freq,
-        "policy_kwargs": additional_args["policy_kwargs"].update(dict(
-            # log_std_init=log_std_init,
-            net_arch=net_arch,
-            activation_fn=activation_fn,
-            ortho_init=ortho_init,
-        )),
+        "policy_kwargs": additional_args["policy_kwargs"],
     }
 
 
@@ -242,7 +242,14 @@ def sample_a2c_params(trial: optuna.Trial, n_actions: int, n_envs: int, addition
     # }[sde_net_arch]
 
     activation_fn = all_activation_funs[activation_fn_name]
-
+    additional_args["policy_kwargs"].update(dict(
+        # log_std_init=log_std_init,
+        net_arch=net_arch,
+        # full_std=full_std,
+        activation_fn=activation_fn,
+        # sde_net_arch=sde_net_arch,
+        ortho_init=ortho_init,
+    ))
     return {
         "n_steps": n_steps,
         "gamma": gamma,
@@ -253,14 +260,7 @@ def sample_a2c_params(trial: optuna.Trial, n_actions: int, n_envs: int, addition
         "max_grad_norm": max_grad_norm,
         "use_rms_prop": use_rms_prop,
         "vf_coef": vf_coef,
-        "policy_kwargs": additional_args["policy_kwargs"].update(dict(
-            # log_std_init=log_std_init,
-            net_arch=net_arch,
-            # full_std=full_std,
-            activation_fn=activation_fn,
-            # sde_net_arch=sde_net_arch,
-            ortho_init=ortho_init,
-        )),
+        "policy_kwargs": additional_args["policy_kwargs"],
     }
 
 
@@ -351,7 +351,7 @@ def sample_td3_params(trial: optuna.Trial, n_actions: int, n_envs: int, addition
         # add for tuning HER
         # "verybig": [256, 256, 256],
     
-
+    additional_args["policy_kwargs"].update(dict(net_arch=net_arch))
     hyperparams = {
         "gamma": gamma,
         "learning_rate": learning_rate,
@@ -359,7 +359,7 @@ def sample_td3_params(trial: optuna.Trial, n_actions: int, n_envs: int, addition
         "buffer_size": buffer_size,
         "train_freq": train_freq,
         "gradient_steps": gradient_steps,
-        "policy_kwargs": additional_args["policy_kwargs"].update(dict(net_arch=net_arch)),
+        "policy_kwargs": additional_args["policy_kwargs"],
         "tau": tau,
     }
 
@@ -453,7 +453,7 @@ def sample_dqn_params(trial: optuna.Trial, n_actions: int, n_envs: int, addition
     net_arch_type = trial.suggest_categorical("net_arch", ["tiny", "small", "medium"])
 
     net_arch = net_arch_maps['dqn'][net_arch_type]
-
+    additional_args["policy_kwargs"].update(dict(net_arch=net_arch))
     hyperparams = {
         "gamma": gamma,
         "learning_rate": learning_rate,
@@ -465,7 +465,7 @@ def sample_dqn_params(trial: optuna.Trial, n_actions: int, n_envs: int, addition
         "exploration_final_eps": exploration_final_eps,
         "target_update_interval": target_update_interval,
         "learning_starts": learning_starts,
-        "policy_kwargs": additional_args["policy_kwargs"].update(dict(net_arch=net_arch)),
+        "policy_kwargs": additional_args["policy_kwargs"],
     }
 
     if additional_args["using_her_replay_buffer"]:
