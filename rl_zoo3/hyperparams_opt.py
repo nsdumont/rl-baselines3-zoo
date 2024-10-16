@@ -301,7 +301,7 @@ def sample_sac_params(trial: optuna.Trial, n_actions: int, n_envs: int, addition
     # if ent_coef == 'auto':
     #     # target_entropy = trial.suggest_categorical('target_entropy', ['auto', 5, 1, 0, -1, -5, -10, -20, -50])
     #     target_entropy = trial.suggest_float('target_entropy', -10, 10)
-
+    additional_args["policy_kwargs"].update(dict(log_std_init=log_std_init, net_arch=net_arch))
     hyperparams = {
         "gamma": gamma,
         "learning_rate": learning_rate,
@@ -313,7 +313,7 @@ def sample_sac_params(trial: optuna.Trial, n_actions: int, n_envs: int, addition
         "ent_coef": ent_coef,
         "tau": tau,
         "target_entropy": target_entropy,
-        "policy_kwargs":  additional_args["policy_kwargs"].update(dict(log_std_init=log_std_init, net_arch=net_arch)),
+        "policy_kwargs":  additional_args["policy_kwargs"],
     }
 
     if additional_args["using_her_replay_buffer"]:
@@ -403,7 +403,7 @@ def sample_ddpg_params(trial: optuna.Trial, n_actions: int, n_envs: int, additio
     # activation_fn = trial.suggest_categorical('activation_fn', [nn.Tanh, nn.ReLU, nn.ELU, nn.LeakyReLU])
 
     net_arch = net_arch_maps['ddpg'][net_arch_type]
-
+    additional_args["policy_kwargs"].update(dict(net_arch=net_arch))
     hyperparams = {
         "gamma": gamma,
         "tau": tau,
@@ -412,7 +412,7 @@ def sample_ddpg_params(trial: optuna.Trial, n_actions: int, n_envs: int, additio
         "buffer_size": buffer_size,
         "train_freq": train_freq,
         "gradient_steps": gradient_steps,
-        "policy_kwargs": additional_args["policy_kwargs"].update(dict(net_arch=net_arch)),
+        "policy_kwargs": additional_args["policy_kwargs"],
     }
 
     if noise_type == "normal":
