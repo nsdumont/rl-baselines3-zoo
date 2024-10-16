@@ -97,12 +97,14 @@ HalfCheetah-v4: &mujoco-defaults #17 dim
   n_timesteps: !!float 1e6
   policy: 'MlpPolicy'
   learning_starts: 10000
-  policy_kwargs: dict(features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=501,basis_type="rand"))
+  policy_kwargs: dict(features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=577,basis_type="hex"))
+
+  #dict(features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=501,basis_type="rand"))
 
 # Ant-v4:
 #   <<: *mujoco-defaults
 
-#tuned
+#
 Hopper-v4: #11
   <<: *mujoco-defaults
   gamma: 0.99
@@ -112,7 +114,9 @@ Hopper-v4: #11
   learning_starts: 1000
   train_freq: 512
   tau: 0.02
-  policy_kwargs: dict(log_std_init=-0.18224045124845256,net_arch=[400, 300],features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=501,basis_type="rand"))
+  policy_kwargs: dict(log_std_init=-0.18224045124845256,net_arch=[400, 300],features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=385,basis_type="hex"))
+
+  #dict(log_std_init=-0.18224045124845256,net_arch=[400, 300],features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=501,basis_type="rand"))
 
 # Walker2d-v4: #17
 #   <<: *mujoco-defaults
@@ -125,16 +129,17 @@ Hopper-v4: #11
 #   tau: 0.005
 #   policy_kwargs: dict(log_std_init=0.09831834642485887,net_arch=[400, 300],features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=577,basis_type="hex"))
 
+
 Walker2d-v4: #17
   <<: *mujoco-defaults
   gamma: 0.99
-  learning_rate: 0.0029507169814105574
+  learning_rate: 0.0014146784273902377
   batch_size: 128
   buffer_size: 100000
-  learning_starts: 10000
-  train_freq: 16
+  learning_starts: 20000
+  train_freq: 8
   tau: 0.01
-  policy_kwargs: dict(log_std_init=-3.0010371188144234,net_arch=[256, 256],features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=577,basis_type="hex"))
+  policy_kwargs: dict(log_std_init=-2.774915023362657,net_arch=[256, 256],features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=577,basis_type="hex"))
 
 
 # Humanoid-v4:
