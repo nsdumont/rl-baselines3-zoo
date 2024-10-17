@@ -28,7 +28,7 @@ CartPole-v1:
   n_epochs: 5
   gae_lambda: 0.98
   max_grad_norm: 0.6
-  vf_coef:0.88657064594218
+  vf_coef: 0.88657064594218
   n_timesteps: 100000.0
   policy: MlpPolicy
   policy_kwargs: dict(net_arch=dict(pi=[64,64], vf=[64,64]),activation_fn=nn.Tanh,features_extractor_class=hrr_gym_wrappers.SSPProcesser,features_extractor_kwargs=dict(features_dim=251,ssp_h=[0.96000004,
